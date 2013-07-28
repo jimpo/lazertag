@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,7 +8,12 @@ import org.opencv.core.MatOfDouble;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+import com.greylocku.lazer.models.LazerGame;
+import com.greylocku.lazer.models.LazerUser;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
@@ -20,22 +26,28 @@ import java.util.Arrays;
  * To change this template use File | Settings | File Templates.
  */
 public class GameActivity extends ColorBlobDetectionActivity {
+	public static final String GAME_ID_FIELD = "com.greylocku.lazertag.GAME_ID_FIELD";
 
-    private Map<String, Integer> colors;
+    private List<Integer> colors;
+    private LazerGame mGame;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.makeColors();
+        mGame = getGame();
+    }
+    
+	private LazerGame getGame() {
+		Intent intent = getIntent();
+		String gameID = intent.getStringExtra(GAME_ID_FIELD);
+		return LazerGame.find("objectId", gameID);
     }
 
-
     public void makeColors(){
-        colors = new HashMap<String, Integer>();
-        colors.put("White", -262);
-        colors.put("Grey", -7565429);
-        colors.put("RedShirt", -21606);
-        colors.put("BlueShirt", -12047749);
-        colors.put("TreeGreen", -12863673);
+        colors = new ArrayList<Integer>();
+    	for (LazerUser player : mGame.getPlayers()) {
+    		colors.add(player.getColor());
+    	}
     }
 
     @Override
@@ -45,11 +57,9 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     public void activateHit(double[] rgba) {
 
-        double[] weight = {4, .1, .2};
-
         int bestColor;
         float minDiff = 9999999;
-        for (String color : colors.keySet()) {
+        for (Integer color : colors) {
             int r = Color.red(colors.get(color));
             int g = Color.green(colors.get(color));
             int b = Color.blue(colors.get(color));
@@ -74,7 +84,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
             Log.i(TAG, "Color Distance" + color + ": " + cd);
             if (cd < 75 && cd < minDiff) {
                 minDiff = cd;
-                bestColor = colors.get(color);
+                bestColor = (int)color;
             }
         }
 

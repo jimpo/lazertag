@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Lazer Tag</string>
-    <string name="new_game_button">New Game</string>
-    <string name="join_game_button">Join Game</string>
+    <string name="new_game_button">new game</string>
+    <string name="join_game_button">join game</string>
     <string name="join_button">Continue</string>
     <string name="game_id_prompt">Enter the game ID</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -19,6 +19,6 @@
     <string name="title_activity_daint">Da Int</string>
     <string name="title_activity_picker">ColorPickerActivity</string>
     <string name="title_activity_game">GameActivity</string>
-
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>
