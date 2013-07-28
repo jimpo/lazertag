@@ -9,13 +9,12 @@ import com.parse.ParseQuery;
 
 @ParseClassName("LazerGame")
 public class LazerGame extends ParseObject{
-	private static String GAME_NAME = "lazertag";
 	private static int ID_MAX = 100000;
 
 
 	public static LazerGame create(){
 		LazerGame generatedGame = new LazerGame();
-		String inMemoryName = GAME_NAME + "_" + randomNumericalString();
+		String inMemoryName = randomNumericalString();
 		generatedGame.setName(inMemoryName);
 		generatedGame.persistSynchronously();
 		return generatedGame;
@@ -70,9 +69,9 @@ public class LazerGame extends ParseObject{
 		return results.size() > 0 ? results.get(0) : null;
 	}
 	
-	public void registerHit(String color) {
+	public void registerHit(int color) {
 		for(LazerUser usr: getPlayers()){
-			if(usr.getColor().equals(color)){
+			if(usr.getColor() == color){
 				int h = Integer.parseInt(usr.getHealth()) - 1;
 				usr.setHealth(h + "");
 				break;

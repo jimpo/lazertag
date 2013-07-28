@@ -31,8 +31,8 @@ public class PlayerArrayAdapter extends ArrayAdapter<LazerUser> {
 		TextView textView = (TextView) rowView.findViewById(R.id.player_name);
 	    textView.setText(values[position].getName());
 	    
-		//View colorBox = rowView.findViewById(R.id.player_color);
-		//colorBox.setBackgroundColor(0xFFFF0000);
+		View colorBox = rowView.findViewById(R.id.player_color);
+		colorBox.setBackgroundColor(values[position].getColor());
 		
 	    return rowView;
 	  }

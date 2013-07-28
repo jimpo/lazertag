@@ -2,21 +2,20 @@ package com.greylocku.lazer;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
-import com.greylocku.lazer.models.util.Color;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.graphics.PorterDuff;
 
 public class JoinActivity extends Activity {
 	public static final String NEW_GAME_FIELD = "com.greylocku.lazertag.NEW_GAME_FIELD";
 	private static final int TAKE_PICTURE_ACTION = 0;
+	
+	private int mColor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class JoinActivity extends Activity {
 			game = LazerGame.find("name", input.getText().toString());
 		}
 		EditText nameInput = (EditText)findViewById(R.id.player_input);
-		LazerUser user = LazerUser.create(nameInput.getText().toString(), game, isNewGame(), new Color(new Double(69), new Double(69), new Double(69)), 69);
+		LazerUser user = LazerUser.create(nameInput.getText().toString(), game, isNewGame(), mColor);
 
 		Intent intent = new Intent(this, WaitActivity.class);
 		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
@@ -75,8 +74,8 @@ public class JoinActivity extends Activity {
 	}
 
 	private void handlePictureTaken(Intent data) {
-		int color = (int)data.getExtras().getLong("colorRGBA");
+		mColor = data.getExtras().getInt("colorRGBA");
 		View button = findViewById(R.id.picture_button);
-		button.setBackgroundColor(color);
+		button.setBackgroundColor(mColor);
 	}
  }

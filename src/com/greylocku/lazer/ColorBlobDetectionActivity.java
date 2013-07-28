@@ -2,7 +2,8 @@ package com.greylocku.lazer;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
+import android.graphics.Color;
+
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
@@ -169,10 +170,10 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         // convert HSV to RBGA representation
         mBlobColorRgba = converScalarHsv2Rgba(new Scalar(mean.toArray()));
 
-        long daColor = (long)mBlobColorRgba.val[3] << 24;
-        daColor += (long)mBlobColorRgba.val[0] << 16;
-        daColor += (long)mBlobColorRgba.val[1] << 8;
-        daColor += (long)mBlobColorRgba.val[2] << 0;
+        int daColor = Color.argb((int)mBlobColorRgba.val[3],
+        						 (int)mBlobColorRgba.val[0],
+        						 (int)mBlobColorRgba.val[1],
+        						 (int)mBlobColorRgba.val[2]);
 
         Log.i(TAG, "dacolor: (" + daColor);
 
