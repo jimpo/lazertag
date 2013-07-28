@@ -61,7 +61,7 @@ public class JoinActivity extends Activity {
 	}
 
 	public void takePicture(View view) {
-	    Intent takePictureIntent = new Intent(this, ColorBlobDetectionActivity.class);
+	    Intent takePictureIntent = new Intent(this, ColorPickerActivity.class);
 	    startActivityForResult(takePictureIntent, TAKE_PICTURE_ACTION);
 	}
 
