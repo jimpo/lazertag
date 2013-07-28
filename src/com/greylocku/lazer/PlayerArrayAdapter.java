@@ -25,18 +25,13 @@ public class PlayerArrayAdapter extends ArrayAdapter<LazerUser> {
 	    LayoutInflater inflater = (LayoutInflater) context
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.player_layout, parent, false);
-	    TextView textView = (TextView) rowView.findViewById(R.id.player_name);
-	    //ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+	    
+		View colorBox = rowView.findViewById(R.id.player_color);
+		colorBox.setBackgroundColor(0xFFFF0000);
+		
+		TextView textView = (TextView) rowView.findViewById(R.id.player_name);
 	    textView.setText(values[position].getName());
-	    // Change the icon for Windows and iPhone
-	    /*
-	    String s = values[position];
-	    if (s.startsWith("iPhone")) {
-	      imageView.setImageResource(R.drawable.no);
-	    } else {
-	      imageView.setImageResource(R.drawable.ok);
-	    }*/
-
+		
 	    return rowView;
 	  }
 }

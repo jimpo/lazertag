@@ -2,6 +2,7 @@ package com.greylocku.lazer.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
@@ -48,6 +49,10 @@ public class LazerUser extends ParseObject{
 			// TODO Auto-generated catch block
 			throw new RuntimeException("Goodluck Biatch");
 		}
+	}
+	
+	public static ParseQuery<LazerUser> query() {
+		return ParseQuery.getQuery("LazerUser");
 	}
 	
 	public void setBoilerPlate() {

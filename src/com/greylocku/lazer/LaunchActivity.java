@@ -5,7 +5,9 @@ import com.greylocku.lazer.models.LazerUser;
 import com.greylocku.lazer.util.SystemUiHider;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -192,20 +194,6 @@ public class LaunchActivity extends Activity {
 			// If you would like all objects to be private by default, remove this line.
 			defaultACL.setPublicReadAccess(true);
 			ParseACL.setDefaultACL(defaultACL, true);
-
-			/*** Sample Code
-			LazerUser testUser1 = LazerUser.create("zachy");
-			LazerUser testUser2 = LazerUser.create("jimmy");
-			
-			LazerGame game = LazerGame.create();
-			game.addPlayer(testUser1);
-			game.addPlayer(testUser2);
-			
-			for(LazerUser user:game.getPlayers())
-			{
-				System.out.println(user.getName());
-			}
-			*/
 		}
 
 }

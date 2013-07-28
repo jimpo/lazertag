@@ -3,9 +3,6 @@ package com.greylocku.lazer.models;
 import java.util.List;
 import java.util.Random;
 
-import android.net.ParseException;
-
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -16,8 +13,6 @@ public class LazerGame extends ParseObject{
 	private static String GAME_NAME = "lazertag";
 	private static int ID_MAX = 100000;
 	private static String RELATIONAL_FIELD = "players";
-	
-	private ParseRelation<LazerUser> playerRelation = getRelation(RELATIONAL_FIELD);
 
 	
 	public static LazerGame create(){
@@ -42,12 +37,13 @@ public class LazerGame extends ParseObject{
 	}
 	
 	public void addPlayer(LazerUser user) {
-		playerRelation.add(user);
+		getRelation(RELATIONAL_FIELD).add(user);
 	}
 	
 	public List<LazerUser> getPlayers() {
 		try {
-			return playerRelation.getQuery().find();
+			ParseRelation<LazerUser> players = getRelation(RELATIONAL_FIELD);
+			return players.getQuery().find();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e.toString());
@@ -63,12 +59,14 @@ public class LazerGame extends ParseObject{
 		}
 	}
 	
+	public static ParseQuery<LazerGame> query() {
+		return ParseQuery.getQuery("LazerGame");
+	}
+	
 	public static LazerGame findByGameName(String name){
-		ParseQuery<ParseObject> query = ParseQuery.getQuery("LazerGame");
-		List<ParseObject> results;
-		query.whereEqualTo("name", name);
+		List<LazerGame> results;
 		try {
-			results = query.find();
+			results = query().whereEqualTo("name", name).find();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e.toString());
@@ -77,9 +75,16 @@ public class LazerGame extends ParseObject{
 			return null;
 		}
 		else {
-			return (LazerGame) results.get(0);	
+			return results.get(0);	
 		}
 	}
 	
-	
+	public static LazerGame find(String id){
+		try {
+			return query().get(id);
+		} catch (com.parse.ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e.toString());
+		}
+	}
 }
