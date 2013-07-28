@@ -53,9 +53,7 @@ public class JoinActivity extends Activity {
 			game = LazerGame.find("name", input.getText().toString());
 		}
 		EditText nameInput = (EditText)findViewById(R.id.player_input);
-		//LazerUser user = LazerUser.create(nameInput.getText().toString());
-//		game.addPlayer(user);
-//		game.persistSynchronously();
+		LazerUser user = LazerUser.create(nameInput.getText().toString(), game);
 		
 		Intent intent = new Intent(this, WaitActivity.class);
 		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
