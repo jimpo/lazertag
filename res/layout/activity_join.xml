@@ -14,6 +14,11 @@
         android:layout_height="wrap_content"
         android:hint="@string/game_id_prompt" />
     
+    <EditText android:id="@+id/player_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/player_name_prompt" />
+    
     <ImageButton
     	android:id="@+id/picture_button"
     	android:layout_width="fill_parent"
