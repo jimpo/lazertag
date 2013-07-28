@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import org.opencv.core.MatOfDouble;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class GameActivity extends ColorBlobDetectionActivity {
 
-    private Map<String, double[]> colors;
+    private Map<String, Integer> colors;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +28,12 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
 
     public void makeColors(){
-        Map<String, double[]> colors = new HashMap<String, double[]>();
-        colors.put("White", new double[]{0, 0, 255});
-        colors.put("Black", new double[]{0, 255, 0});
-        colors.put("Red", new double[]{0, 255, 255});
-        colors.put("RedShirt", new double[]{7, 146, 239});
-        colors.put("Blue", new double[]{240, 255, 255});
-        colors.put("BlueShirt", new double[]{105, 78, 180});
-        colors.put("Cyan", new double[]{180, 255, 255});
-        colors.put("Yellow", new double[]{60, 255, 255});
-        colors.put("Green", new double[]{120 , 255, 255});
-        colors.put("TreeGreen", new double[]{50 , 171, 77});
+        Map<String, Integer> colors = new HashMap<String, Integer>();
+        colors.put("White", -262);
+        colors.put("Black", -8488597);
+        colors.put("RedShirt", -21606);
+        colors.put("BlueShirt", -10191974);
+        colors.put("TreeGreen", -12884933);
     }
 
     @Override
@@ -50,7 +46,8 @@ public class GameActivity extends ColorBlobDetectionActivity {
         double[] weight = {4, .1, .2};
 
         for (String color : colors.keySet()) {
-            double[] hsv = colors.get(color);
+            float[] hsv = new float[3];
+            Color.colorToHSV(colors.get(color), hsv);
             double sum1 = Math.abs(hsv[0] - meanHSV[0]);
             double minDist = Math.min(sum1, 360 - sum1);
             double sum = Math.pow(minDist,2)*weight[0];
