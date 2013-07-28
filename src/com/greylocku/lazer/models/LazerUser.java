@@ -1,5 +1,7 @@
 package com.greylocku.lazer.models;
 
+import java.util.List;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -54,5 +56,17 @@ public class LazerUser extends ParseObject{
 
 	public static ParseQuery<LazerUser> query() {
 		return ParseQuery.getQuery("LazerUser");
+	}
+	
+	public static LazerUser find(String column, String name) {
+		ParseQuery<LazerUser> query = query().whereEqualTo(column, name);
+		List<LazerUser> results;
+		try {
+			results = query.find();
+		} catch (com.parse.ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e.toString());
+		}
+		return results.size() > 0 ? results.get(0) : null;
 	}
 }
