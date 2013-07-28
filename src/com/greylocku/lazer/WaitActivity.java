@@ -82,9 +82,9 @@ public class WaitActivity extends Activity {
 
             @Override
             public void run() {
-            	Log.d("STARTED", "" + game_.getInt("status"));
                 if (game_.isStarted()) {
                     Intent intent = new Intent(that, GameActivity.class);
+            		intent.putExtra(GameActivity.GAME_ID_FIELD, game_.getObjectId());
                     startActivity(intent);
                     return;
                 }
