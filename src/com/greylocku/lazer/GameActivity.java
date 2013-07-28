@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import com.greylocku.lazer.util.SoundEffects;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.Scalar;
 
@@ -79,23 +80,23 @@ public class GameActivity extends ColorBlobDetectionActivity {
     
     private void updateStats() {
     	mPlayer.fetchInBackground(new GetCallback<LazerUser>() {
-		@Override
-		public void done(LazerUser newPlayer, ParseException e) {
-			LazerUser oldPlayer = mPlayer;
-			mPlayer = newPlayer;
-			if (!canShoot()) {
-				timeoutOut--;
-			return;
-			}
-			if (mPlayer.getHealth() < oldPlayer.getHealth()) {
-				getShot();
-			}
-			if (mPlayer.getHealth() <= 0) {
-				endGame();
-				return;
-			}
-		}
-		});
+            @Override
+            public void done(LazerUser newPlayer, ParseException e) {
+                LazerUser oldPlayer = mPlayer;
+                mPlayer = newPlayer;
+                if (!canShoot()) {
+                    timeoutOut--;
+                    return;
+                }
+                if (mPlayer.getHealth() < oldPlayer.getHealth()) {
+                    getShot();
+                }
+                if (mPlayer.getHealth() <= 0) {
+                    endGame();
+                    return;
+                }
+            }
+        });
     }
     
     private void endGame() {
@@ -136,7 +137,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
     }
 
     public void activateHit(double[] rgba) {
-
+        SoundEffects.play(this, R.raw.shot);
         Integer bestColor = null;
         float minDiff = 9999999;
         for (Integer color : colors) {
@@ -168,6 +169,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
             }
             if (bestColor != null) {
                 Log.i(TAG, "Hit" + color + ": " + cd);
+                SoundEffects.play(this, R.raw.hit);
                 mGame.registerHit(bestColor);
             }
         }
