@@ -1,18 +1,25 @@
 package com.greylocku.lazer;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.ImageView;
 import com.greylocku.lazer.util.SoundEffects;
-import org.opencv.core.MatOfDouble;
-import org.opencv.core.Scalar;
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.android.Utils;
+import org.opencv.core.*;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import org.opencv.highgui.Highgui;
+import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,6 +281,25 @@ public class GameActivity extends ColorBlobDetectionActivity {
         lab[2] = (float) (bs + .5);
     }
 
+    @Override
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        Mat mrgba = super.onCameraFrame(inputFrame);
+//        Bitmap bMap= BitmapFactory.decodeResource(getResources(), R.drawable.health);
+//        Mat heart = new Mat();
+//        Utils.bitmapToMat(bMap, heart);
+//        Log.i(TAG, "Heart size " + heart.size());
+//        Log.i(TAG, "Frame size " + mrgba.size());
+        Point start = new Point(4, 700);
+//        Mat heartspace = mrgba.submat(4, 64, 4, 64);
+//        Imgproc.resize(heart, heart, new Size(64, 64));
+//        heartspace.setTo(heart);
+//        for (int i = 0; i < mPlayer.getHealth(); i++) {
+//            Core.add(mrgba, heart, mrgba);
+//
+        Core.putText(mrgba, mPlayer.getHealth() + "", start, Core.FONT_HERSHEY_PLAIN, 15, new Scalar(255, 255, 255, 255), 10);
+//            start.x += 75;
+//        }
 
-
+        return mrgba;
+    }
 }
