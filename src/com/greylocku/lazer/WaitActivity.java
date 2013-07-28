@@ -1,6 +1,8 @@
 package com.greylocku.lazer;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
@@ -30,6 +32,21 @@ public class WaitActivity extends Activity {
 		TextView game_input = (TextView)findViewById(R.id.game_id_field);
 		game_input.setText(game_.getName());
 
+		final ListView youList = (ListView)findViewById(R.id.you_list);
+		final ListView playersList = (ListView)findViewById(R.id.others_list);
+		
+		View startButton = findViewById(R.id.start_button);
+		startButton.setVisibility(player_.isOwner() ? View.VISIBLE : View.GONE);
+		
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				updateLists(youList, playersList);
+			}
+		}, 0, 5000);
+	}
+	
+	private void updateLists(ListView youList, ListView playersList) {
 		List<LazerUser> players = game_.getPlayers();
 		String playerID = getPlayerID();
 		for (int i = 0; i < players.size(); i++) {
@@ -39,15 +56,10 @@ public class WaitActivity extends Activity {
 			}
 		}
 		
-		ListView youList = (ListView)findViewById(R.id.you_list);
-		ListView playersList = (ListView)findViewById(R.id.others_list);
 		PlayerArrayAdapter youAdapter = new PlayerArrayAdapter(this, new LazerUser[] { player_ });
 		PlayerArrayAdapter othersAdapter = new PlayerArrayAdapter(this, players.toArray(new LazerUser[0]));
 		youList.setAdapter(youAdapter);
 		playersList.setAdapter(othersAdapter);
-		
-		View startButton = findViewById(R.id.start_button);
-		startButton.setVisibility(player_.isOwner() ? View.VISIBLE : View.GONE);
 	}
 
 	private LazerGame getGame() {
