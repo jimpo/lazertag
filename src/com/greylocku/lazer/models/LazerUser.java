@@ -6,11 +6,12 @@ import com.parse.ParseQuery;
 
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
-	
-	public static LazerUser create(String name){
+
+	public static LazerUser create(String name, LazerGame game){
 		LazerUser generatedUser = new LazerUser();
 		generatedUser.setName(name);
 		generatedUser.setHealth("3");
+		generatedUser.put("game", game);
 		generatedUser.persistSynchronously();
 		return generatedUser;
 	}
@@ -21,27 +22,27 @@ public class LazerUser extends ParseObject{
 	public String getName() {
 		return getString("name");
 	}
-	  
+
 	public void setName(String value) {
 		put("name", value);
 	}
-	
+
 	public String getHealth() {
 		return getString("health");
 	}
-	  
+
 	public void setHealth(String value) {
 		put("health", value);
 	}
-	
+
 	public String getColor() {
 		return getString("color");
 	}
-	  
+
 	public void setColor(String value) {
 		put("color", value);
 	}
-	
+
 	public void persistSynchronously() {
 		try {
 			save();
@@ -50,12 +51,8 @@ public class LazerUser extends ParseObject{
 			throw new RuntimeException("Goodluck Biatch");
 		}
 	}
-	
+
 	public static ParseQuery<LazerUser> query() {
 		return ParseQuery.getQuery("LazerUser");
-	}
-	
-	public void setBoilerPlate() {
-		setHealth("3");
 	}
 }

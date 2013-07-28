@@ -26,11 +26,13 @@ public class PlayerArrayAdapter extends ArrayAdapter<LazerUser> {
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.player_layout, parent, false);
 	    
-		View colorBox = rowView.findViewById(R.id.player_color);
-		colorBox.setBackgroundColor(0xFFFF0000);
+
 		
 		TextView textView = (TextView) rowView.findViewById(R.id.player_name);
 	    textView.setText(values[position].getName());
+	    
+		//View colorBox = rowView.findViewById(R.id.player_color);
+		//colorBox.setBackgroundColor(0xFFFF0000);
 		
 	    return rowView;
 	  }

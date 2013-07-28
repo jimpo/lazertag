@@ -5,9 +5,7 @@ import com.greylocku.lazer.models.LazerUser;
 import com.greylocku.lazer.util.SystemUiHider;
 import com.parse.Parse;
 import com.parse.ParseACL;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseRelation;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -66,10 +64,10 @@ public class LaunchActivity extends Activity {
 		// Set up an instance of SystemUiHider to control the system UI for
 		// this activity.
 		mSystemUiHider = SystemUiHider.getInstance(this, contentView,
-				HIDER_FLAGS);
+                                                   HIDER_FLAGS);
 		mSystemUiHider.setup();
 		mSystemUiHider
-				.setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
+            .setOnVisibilityChangeListener(new SystemUiHider.OnVisibilityChangeListener() {
 					// Cached values.
 					int mControlsHeight;
 					int mShortAnimTime;
@@ -87,18 +85,18 @@ public class LaunchActivity extends Activity {
 							}
 							if (mShortAnimTime == 0) {
 								mShortAnimTime = getResources().getInteger(
-										android.R.integer.config_shortAnimTime);
+                                                                           android.R.integer.config_shortAnimTime);
 							}
 							controlsView
-									.animate()
-									.translationY(visible ? 0 : mControlsHeight)
-									.setDuration(mShortAnimTime);
+                                .animate()
+                                .translationY(visible ? 0 : mControlsHeight)
+                                .setDuration(mShortAnimTime);
 						} else {
 							// If the ViewPropertyAnimator APIs aren't
 							// available, simply show or hide the in-layout UI
 							// controls.
 							controlsView.setVisibility(visible ? View.VISIBLE
-									: View.GONE);
+                                                       : View.GONE);
 						}
 
 						if (visible && AUTO_HIDE) {
@@ -110,21 +108,21 @@ public class LaunchActivity extends Activity {
 
 		// Set up the user interaction to manually show or hide the system UI.
 		contentView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (TOGGLE_ON_CLICK) {
-					mSystemUiHider.toggle();
-				} else {
-					mSystemUiHider.show();
-				}
-			}
-		});
+                @Override
+                public void onClick(View view) {
+                    if (TOGGLE_ON_CLICK) {
+                        mSystemUiHider.toggle();
+                    } else {
+                        mSystemUiHider.show();
+                    }
+                }
+            });
 
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
 		findViewById(R.id.new_game_button).setOnTouchListener(
-				mDelayHideTouchListener);
+                                                              mDelayHideTouchListener);
 	}
 
 	@Override
@@ -143,22 +141,22 @@ public class LaunchActivity extends Activity {
 	 * while interacting with activity UI.
 	 */
 	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			if (AUTO_HIDE) {
-				delayedHide(AUTO_HIDE_DELAY_MILLIS);
-			}
-			return false;
-		}
-	};
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (AUTO_HIDE) {
+                    delayedHide(AUTO_HIDE_DELAY_MILLIS);
+                }
+                return false;
+            }
+        };
 
 	Handler mHideHandler = new Handler();
 	Runnable mHideRunnable = new Runnable() {
-		@Override
-		public void run() {
-			mSystemUiHider.hide();
-		}
-	};
+            @Override
+            public void run() {
+                mSystemUiHider.hide();
+            }
+        };
 
 	/**
 	 * Schedules a call to hide() in [delay] milliseconds, canceling any
@@ -183,17 +181,16 @@ public class LaunchActivity extends Activity {
 		startActivity(intent);
 	}
 	
-	  public void initializeParse() {
-			//Initialize parse
-			// Add your initialization code here
-			ParseObject.registerSubclass(LazerUser.class);
-			ParseObject.registerSubclass(LazerGame.class);
-			Parse.initialize(this, "ZAxTBMrNWKxLc1vQT6s1RJWRK2ytQoY4TGCNmdXV", "nmYDNx1IghjEjPyXgTJyfSUiOxIyeEEGjqbMX2U7"); 
+    public void initializeParse() {
+        //Initialize parse
+        // Add your initialization code here
+        ParseObject.registerSubclass(LazerUser.class);
+        ParseObject.registerSubclass(LazerGame.class);
+        Parse.initialize(this, "ZAxTBMrNWKxLc1vQT6s1RJWRK2ytQoY4TGCNmdXV", "nmYDNx1IghjEjPyXgTJyfSUiOxIyeEEGjqbMX2U7"); 
 
-			ParseACL defaultACL = new ParseACL();
-			// If you would like all objects to be private by default, remove this line.
-			defaultACL.setPublicReadAccess(true);
-			ParseACL.setDefaultACL(defaultACL, true);
-		}
-
+        ParseACL defaultACL = new ParseACL();
+        // If you would like all objects to be private by default, remove this line.
+        defaultACL.setPublicReadAccess(true);
+        ParseACL.setDefaultACL(defaultACL, true);
+    }
 }

@@ -2,18 +2,11 @@ package com.greylocku.lazer;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
-import com.parse.Parse;
-import com.parse.ParseACL;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 
 
@@ -54,21 +47,17 @@ public class JoinActivity extends Activity {
 		}
 		else {
 			EditText input = (EditText)findViewById(R.id.game_id_input);
-			game = LazerGame.findByGameName(input.getText().toString());
+			game = LazerGame.find("name", input.getText().toString());
 		}
 		EditText nameInput = (EditText)findViewById(R.id.player_input);
-		LazerUser user = LazerUser.create(nameInput.getText().toString());
+		LazerUser user = LazerUser.create(nameInput.getText().toString(), game);
 
-		startWaitActivity(game, user);
-	}
-	
-	private void startWaitActivity(LazerGame game, LazerUser user) {
 		Intent intent = new Intent(this, WaitActivity.class);
 		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
 		intent.putExtra(WaitActivity.PLAYER_ID_FIELD, user.getObjectId());
 		startActivity(intent);
 	}
-	
+
 	public void showMessage(String message) {
 		Toast.makeText(this,  message,  Toast.LENGTH_SHORT).show();
 	}
