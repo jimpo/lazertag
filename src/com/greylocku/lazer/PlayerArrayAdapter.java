@@ -12,12 +12,10 @@ import android.widget.TextView;
 public class PlayerArrayAdapter extends ArrayAdapter<LazerUser> {
 
 	private final Context context;
-	  private final LazerUser[] values;
 
-	  public PlayerArrayAdapter(Context context, LazerUser[] values) {
-	    super(context, R.layout.player_layout, values);
+	  public PlayerArrayAdapter(Context context) {
+	    super(context, R.layout.player_layout);
 	    this.context = context;
-	    this.values = values;
 	  }
 
 	  @Override
@@ -25,14 +23,12 @@ public class PlayerArrayAdapter extends ArrayAdapter<LazerUser> {
 	    LayoutInflater inflater = (LayoutInflater) context
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.player_layout, parent, false);
-	    
-
 		
 		TextView textView = (TextView) rowView.findViewById(R.id.player_name);
-	    textView.setText(values[position].getName());
+	    textView.setText(getItem(position).getName());
 	    
-		//View colorBox = rowView.findViewById(R.id.player_color);
-		//colorBox.setBackgroundColor(0xFFFF0000);
+		View colorBox = rowView.findViewById(R.id.player_color);
+		colorBox.setBackgroundColor(getItem(position).getColor());
 		
 	    return rowView;
 	  }

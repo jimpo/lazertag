@@ -16,5 +16,6 @@
     <string name="others_label">Other Players</string>
     <string name="start_button">Start Game</string>
     <string name="player_name_prompt">Your name</string>
+    <string name="title_activity_daint">Da Int</string>
 
 </resources>

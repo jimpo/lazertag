@@ -2,7 +2,6 @@ package com.greylocku.lazer.models;
 
 import java.util.List;
 
-import com.greylocku.lazer.models.util.Color;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -10,14 +9,13 @@ import com.parse.ParseQuery;
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
 
-	public static LazerUser create(String name, LazerGame game, Boolean isowner, Color color, int previewColor){
+	public static LazerUser create(String name, LazerGame game, Boolean isowner, int color){
 		LazerUser generatedUser = new LazerUser();
 		generatedUser.setName(name);
 		generatedUser.setHealth("3");
 		generatedUser.setOwner(isowner);
 		generatedUser.put("game", game);
 		generatedUser.setColor(color);
-		generatedUser.setPreviewColor(previewColor);
 		generatedUser.persistSynchronously();
 		return generatedUser;
 	}
@@ -41,22 +39,12 @@ public class LazerUser extends ParseObject{
 		put("health", value);
 	}
 
-	public Color getColor() {
-		return new Color(getDouble("color_h"), getDouble("color_s"), getDouble("color_v"));
+	public int getColor() {
+		return getInt("color");
 	}
 
-	public void setColor(Color c) {
-		put("color_h", c.hue);
-		put("color_s", c.saturation);
-		put("color_v", c.value);
-	}
-	
-	public int getPreviewColor() {
-		return getInt("preview_color");
-	}
-	
-	public void setPreviewColor(int c){
-		put("preview_color", c);
+	public void setColor(int color) {
+		put("color", color);
 	}
 		
 	public Boolean isOwner() {
