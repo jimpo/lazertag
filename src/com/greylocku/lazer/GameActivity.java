@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import org.opencv.core.MatOfDouble;
@@ -8,6 +9,8 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +21,7 @@ import java.util.Map;
  */
 public class GameActivity extends ColorBlobDetectionActivity {
 
-    private Map<String, double[]> colors;
+    private Map<String, Integer> colors;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,41 +30,147 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
 
     public void makeColors(){
-        Map<String, double[]> colors = new HashMap<String, double[]>();
-        colors.put("White", new double[]{0, 0, 255});
-        colors.put("Black", new double[]{0, 255, 0});
-        colors.put("Red", new double[]{0, 255, 255});
-        colors.put("RedShirt", new double[]{7, 146, 239});
-        colors.put("Blue", new double[]{240, 255, 255});
-        colors.put("BlueShirt", new double[]{105, 78, 180});
-        colors.put("Cyan", new double[]{180, 255, 255});
-        colors.put("Yellow", new double[]{60, 255, 255});
-        colors.put("Green", new double[]{120 , 255, 255});
-        colors.put("TreeGreen", new double[]{50 , 171, 77});
+        colors = new HashMap<String, Integer>();
+        colors.put("White", -262);
+        colors.put("Grey", -7565429);
+        colors.put("RedShirt", -21606);
+        colors.put("BlueShirt", -12047749);
+        colors.put("TreeGreen", -12863673);
     }
 
     @Override
     public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean){
-        this.activateHit(mean.toArray());
+        this.activateHit(mBlobColorRgba.val);
     }
 
-    public void activateHit(double[] meanHSV) {
+    public void activateHit(double[] rgba) {
 
         double[] weight = {4, .1, .2};
 
         for (String color : colors.keySet()) {
-            double[] hsv = colors.get(color);
-            double sum1 = Math.abs(hsv[0] - meanHSV[0]);
-            double minDist = Math.min(sum1, 360 - sum1);
-            double sum = Math.pow(minDist,2)*weight[0];
-            for (int i = 1; i < meanHSV.length; i++) {
+            int r = Color.red(colors.get(color));
+            int g = Color.green(colors.get(color));
+            int b = Color.blue(colors.get(color));
+            float[] shirt = new float[3];
+            rgb2lab(r, g, b, shirt);
 
-                sum += Math.pow(meanHSV[i] - hsv[i], 2) * weight[i];
-            }
-            double dist = Math.sqrt(sum);
-            Log.i(TAG, "Color Distance" + color + ": " + dist);
+            float[] target = new float[3];
+            rgb2lab((int)rgba[0], (int)rgba[1], (int)rgba[2], target);
+
+            ;
+
+//            Log.i(TAG, "HSV" + color + ": " + colorDistance(shirt, target));
+//            double sum1 = Math.abs(hsv[0] - meanHSV[0]);
+//            double minDist = Math.min(sum1, 360 - sum1);
+//            double sum = Math.pow(minDist,2)*weight[0];
+//            for (int i = 1; i < meanHSV.length; i++) {
+//
+//                sum += Math.pow(meanHSV[i] - hsv[i], 2) * weight[i];
+//            }
+//            double dist = Math.sqrt(sum);
+            Log.i(TAG, "Color Distance" + color + ": " + colorDistance(shirt, target));
         }
 
     }
+
+    /**
+     * Compute the distance E (CIE 1994) between two colors in LAB color space.
+     * Reference: http://www.brucelindbloom.com/index.html?ColorDifferenceCalc.html
+     */
+    private static float colorDistance(final float[] lab1, final float[] lab2) {
+        if (false) {
+            // Compute distance using CIE94 formula.
+            // NOTE: this formula sometime fails because of negative
+            //       value in the first Math.sqrt(...) expression.
+            final double dL = (double)lab1[0] - lab2[0];
+            final double da = (double)lab1[1] - lab2[1];
+            final double db = (double)lab1[2] - lab2[2];
+            final double C1 = Math.hypot(lab1[1], lab1[2]);
+            final double C2 = Math.hypot(lab2[1], lab2[2]);
+            final double dC = C1 - C2;
+            final double dH = Math.sqrt(da*da + db*db - dC*dC);
+            final double sL = dL / 2;
+            final double sC = dC / (1 + 0.048*C1);
+            final double sH = dH / (1 + 0.014*C1);
+            return (float)Math.sqrt(sL*sL + sC*sC + sH*sH);
+        } else {
+            // Compute distance using delta E formula.
+            double sum = 0;
+            for (int i=Math.min(lab1.length, lab2.length); --i>=0;) {
+                final double delta = lab1[i] - lab2[i];
+                sum += delta*delta;
+            }
+            return (float)Math.sqrt(sum);
+        }
+    }
+
+    public void rgb2lab(int R, int G, int B, float[] lab) {
+        //http://www.brucelindbloom.com
+
+        float r, g, b, X, Y, Z, fx, fy, fz, xr, yr, zr;
+        float Ls, as, bs;
+        float eps = 216.f/24389.f;
+        float k = 24389.f/27.f;
+
+        float Xr = 0.964221f;  // reference white D50
+        float Yr = 1.0f;
+        float Zr = 0.825211f;
+
+        // RGB to XYZ
+        r = R/255.f; //R 0..1
+        g = G/255.f; //G 0..1
+        b = B/255.f; //B 0..1
+
+        // assuming sRGB (D65)
+        if (r <= 0.04045)
+            r = r/12;
+        else
+            r = (float) Math.pow((r+0.055)/1.055,2.4);
+
+        if (g <= 0.04045)
+            g = g/12;
+        else
+            g = (float) Math.pow((g+0.055)/1.055,2.4);
+
+        if (b <= 0.04045)
+            b = b/12;
+        else
+            b = (float) Math.pow((b+0.055)/1.055,2.4);
+
+
+        X =  0.436052025f*r     + 0.385081593f*g + 0.143087414f *b;
+        Y =  0.222491598f*r     + 0.71688606f *g + 0.060621486f *b;
+        Z =  0.013929122f*r     + 0.097097002f*g + 0.71418547f  *b;
+
+        // XYZ to Lab
+        xr = X/Xr;
+        yr = Y/Yr;
+        zr = Z/Zr;
+
+        if ( xr > eps )
+            fx =  (float) Math.pow(xr, 1/3.);
+        else
+            fx = (float) ((k * xr + 16.) / 116.);
+
+        if ( yr > eps )
+            fy =  (float) Math.pow(yr, 1/3.);
+        else
+            fy = (float) ((k * yr + 16.) / 116.);
+
+        if ( zr > eps )
+            fz =  (float) Math.pow(zr, 1/3.);
+        else
+            fz = (float) ((k * zr + 16.) / 116);
+
+        Ls = ( 116 * fy ) - 16;
+        as = 500*(fx-fy);
+        bs = 200*(fy-fz);
+
+        lab[0] = (float) (2.55*Ls + .5);
+        lab[1] = (float) (as + .5);
+        lab[2] = (float) (bs + .5);
+    }
+
+
 
 }
