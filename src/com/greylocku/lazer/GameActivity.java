@@ -58,7 +58,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 	
 	@Override
 	public void onResume() {
-		mTimer.scheduleAtFixedRate(mTask, 0, 500);
+		mTimer.scheduleAtFixedRate(mTask, 0, 2000);
 		super.onResume();
 	}
 	
@@ -76,7 +76,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 			@Override
 			public void run() {
 				LazerUser oldPlayer = mPlayer;
-				mPlayer = LazerUser.find("objectid",  oldPlayer.getObjectId());
+				mPlayer = LazerUser.find("objectId",  oldPlayer.getObjectId());
 				if (!canShoot()) {
 					timeoutOut--;
 					return;
@@ -98,7 +98,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
     
     private void getShot() {
     	timeoutOut = 6;
-    	SoundEffects.play(this, R.raw.hit);
+    	//SoundEffects.play(this, R.raw.hit);
     }
     
 	private LazerGame getGame() {

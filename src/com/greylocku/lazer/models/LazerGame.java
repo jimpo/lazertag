@@ -30,15 +30,11 @@ public class LazerGame extends ParseObject{
 	}
 
 	public void start() {
-		System.out.println("SUMMERTIME");
-		LazerGame game = LazerGame.find("objectId", getObjectId());
-		System.out.println(game.getObjectId());
-		game.put("status", STATUS_STARTED);
+        put("status", STATUS_STARTED);
 		try {
-			game.save();
+			save();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			System.out.println("SAD");
 			e.printStackTrace();
 		}
 	}
@@ -49,7 +45,8 @@ public class LazerGame extends ParseObject{
 	}
 	
 	public String getName() {
-		return getString("name");
+        LazerGame game = LazerGame.find("objectId", getObjectId());
+		return game.getString("name");
 	}
 
 	public void setName(String value) {
