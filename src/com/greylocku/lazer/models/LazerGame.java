@@ -95,8 +95,8 @@ public class LazerGame extends ParseObject{
 	public void registerHit(int color) {
 		for(LazerUser usr: getPlayers()){
 			if(usr.getColor() == color){
-				int h = Integer.parseInt(usr.getHealth()) - 1;
-				usr.setHealth(h + "");
+				int h = usr.getHealth() - 1;
+				usr.setHealth(h);
 				break;
 			}
 		}

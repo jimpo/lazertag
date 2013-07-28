@@ -3,6 +3,7 @@ package com.greylocku.lazer;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.Scalar;
@@ -10,12 +11,15 @@ import org.opencv.imgproc.Imgproc;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
+import com.greylocku.lazer.util.SoundEffects;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -27,14 +31,74 @@ import java.util.Arrays;
  */
 public class GameActivity extends ColorBlobDetectionActivity {
 	public static final String GAME_ID_FIELD = "com.greylocku.lazertag.GAME_ID_FIELD";
+	public static final String PLAYER_ID_FIELD = "com.greylocku.lazertag.PLAYER_ID_FIELD";
 
     private List<Integer> colors;
     private LazerGame mGame;
+    private LazerUser mPlayer;
+    private Handler mHandler;
+    private Timer mTimer;
+    private TimerTask mTask;
+    private int timeoutOut;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.makeColors();
         mGame = getGame();
+        mPlayer = getPlayer();
+        mHandler = new Handler();
+        this.makeColors();
+        timeoutOut = 0;
+		mTimer = new Timer();
+		mTask = new TimerTask() {
+			public void run() {
+				updateStats();
+			}
+		};
+	}
+	
+	@Override
+	public void onResume() {
+		mTimer.scheduleAtFixedRate(mTask, 0, 500);
+		super.onResume();
+	}
+	
+	public void onPause() {
+		mTimer.cancel();
+		super.onPause();
+	}
+	
+	private boolean canShoot() {
+		return timeoutOut == 0;
+	}
+    
+    private void updateStats() {
+    	mHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				LazerUser oldPlayer = mPlayer;
+				mPlayer = LazerUser.find("objectid",  oldPlayer.getObjectId());
+				if (!canShoot()) {
+					timeoutOut--;
+					return;
+				}
+				if (mPlayer.getHealth() < oldPlayer.getHealth()) {
+					getShot();
+				}
+				if (mPlayer.getHealth() <= 0) {
+					endGame();
+					return;
+				}
+			}
+    	});
+    }
+    
+    private void endGame() {
+    	finish();
+    }
+    
+    private void getShot() {
+    	timeoutOut = 6;
+    	SoundEffects.play(this, R.raw.hit);
     }
     
 	private LazerGame getGame() {
@@ -43,6 +107,12 @@ public class GameActivity extends ColorBlobDetectionActivity {
 		return LazerGame.find("objectId", gameID);
     }
 
+	private LazerUser getPlayer() {
+		Intent intent = getIntent();
+		String playerID = intent.getStringExtra(PLAYER_ID_FIELD);
+		return LazerUser.find("objectId", playerID);
+    }
+	
     public void makeColors(){
         colors = new ArrayList<Integer>();
     	for (LazerUser player : mGame.getPlayers()) {
@@ -52,7 +122,9 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     @Override
     public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean){
-        this.activateHit(mBlobColorRgba.val);
+    	if (canShoot()) {
+    		this.activateHit(mBlobColorRgba.val);
+    	}
     }
 
     public void activateHit(double[] rgba) {

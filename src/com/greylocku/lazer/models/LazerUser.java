@@ -12,7 +12,7 @@ public class LazerUser extends ParseObject{
 	public static LazerUser create(String name, LazerGame game, Boolean isowner, int color){
 		LazerUser generatedUser = new LazerUser();
 		generatedUser.setName(name);
-		generatedUser.setHealth("3");
+		generatedUser.setHealth(3);
 		generatedUser.setOwner(isowner);
 		generatedUser.put("game", game);
 		generatedUser.setColor(color);
@@ -31,11 +31,11 @@ public class LazerUser extends ParseObject{
 		put("name", value);
 	}
 
-	public String getHealth() {
-		return getString("health");
+	public int getHealth() {
+		return getInt("health");
 	}
 
-	public void setHealth(String value) {
+	public void setHealth(int value) {
 		put("health", value);
 	}
 

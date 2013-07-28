@@ -67,7 +67,7 @@ public class WaitActivity extends Activity {
 	
 	@Override
 	public void onResume() {
-		mTimer.scheduleAtFixedRate(mTask, 0, 5000);
+		mTimer.scheduleAtFixedRate(mTask, 0, 500);
 		super.onResume();
 	}
 	
@@ -85,6 +85,7 @@ public class WaitActivity extends Activity {
                 if (game_.isStarted()) {
                     Intent intent = new Intent(that, GameActivity.class);
             		intent.putExtra(GameActivity.GAME_ID_FIELD, game_.getObjectId());
+            		intent.putExtra(GameActivity.PLAYER_ID_FIELD, player_.getObjectId());
                     startActivity(intent);
                     return;
                 }
