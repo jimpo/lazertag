@@ -3,7 +3,7 @@ package com.greylocku.lazer;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-
+import android.hardware.Camera;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
@@ -22,7 +22,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
     // fields for the game
     public static final int RADIUS = 10;
 
-//    MatOfInt[] mChannels = new MatOfInt[] { new MatOfInt(0), new MatOfInt(1), new MatOfInt(2) };
+    //    MatOfInt[] mChannels = new MatOfInt[] { new MatOfInt(0), new MatOfInt(1), new MatOfInt(2) };
 //    int mHistSizeNum = 25;
 //    MatOfInt mHistSize = new MatOfInt(mHistSizeNum);
 //    float[] mBuff = new float[mHistSizeNum];
@@ -152,28 +151,33 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         Log.i(TAG, "Mean: " + Arrays.toString(mean.toArray()));
         Log.i(TAG, "Std Dev: " + Arrays.toString(stddev.toArray()));
         double[] std = stddev.toArray();
+        // convert HSV to RGBA representation
+        mBlobColorRgba = converScalarHsv2Rgba(new Scalar(mean.toArray()));
+        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
+                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
 
-        if (std[0] > 70) {
-//        if (stddev.get(0, 0)[0] > 70 && stddev.get(1, 0)[0] > 15) {
-            if (callTouchEvent > 0) {
-                callTouchEvent--;
-            } else {
-                callTouchEvent = 10;
-            }
-            return false;
-        } else {
-            callTouchEvent = 0;
-        }
+
+
+//        if (std[0] > 70) {
+////        if (stddev.get(0, 0)[0] > 70 && stddev.get(1, 0)[0] > 15) {
+//            if (callTouchEvent > 0) {
+//                callTouchEvent--;
+//            } else {
+//                callTouchEvent = 10;
+//            }
+//            return false;
+//        } else {
+//            callTouchEvent = 0;
+//        }
 
         this.activateHit(mean.toArray());
-        // convert HSV to RBGA representation
-        mBlobColorRgba = converScalarHsv2Rgba(new Scalar(mean.toArray()));
 
-        int daColor = Color.argb((int)mBlobColorRgba.val[3],
-        						 (int)mBlobColorRgba.val[0],
-        						 (int)mBlobColorRgba.val[1],
-        						 (int)mBlobColorRgba.val[2]);
+
+        int daColor = Color.argb((int) mBlobColorRgba.val[3],
+                (int) mBlobColorRgba.val[0],
+                (int) mBlobColorRgba.val[1],
+                (int) mBlobColorRgba.val[2]);
 
         Log.i(TAG, "dacolor: (" + daColor);
 
@@ -184,9 +188,6 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         setResult(Activity.RESULT_OK, resultData);
         finish();
 
-
-        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
-                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
         mDetector.setHsvColor(mBlobColorHsv);
         Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE);
@@ -206,12 +207,13 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         colors.put("Red", new double[]{0, 255, 255});
         colors.put("RedShirt", new double[]{7, 146, 239});
         colors.put("Blue", new double[]{240, 255, 255});
+        colors.put("BlueShirt", new double[]{105, 78, 180});
         colors.put("Cyan", new double[]{180, 255, 255});
         colors.put("Yellow", new double[]{60, 255, 255});
         colors.put("Green", new double[]{120 , 255, 255});
         colors.put("TreeGreen", new double[]{50 , 171, 77});
 
-        double[] weight = {1.5, .1, .2};
+        double[] weight = {4, .1, .2};
 
         for (String color : colors.keySet()) {
             double[] hsv = colors.get(color);
@@ -231,9 +233,9 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         mRgba = inputFrame.rgba();
         this.drawReticle();
-        if (callTouchEvent > 0) {
-            this.onTouch(null, null);
-        }
+//        if (callTouchEvent > 0) {
+//            this.onTouch(null, null);
+//        }
         // update color labels
         Mat colorLabel = mRgba.submat(4, 68, 4, 68);
         colorLabel.setTo(mBlobColorRgba);
@@ -253,7 +255,7 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         Mat pointMatRgba = new Mat();
         Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, hsvColor);
 
-        Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
+        Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB, 4);
         return new Scalar(pointMatRgba.get(0, 0));
     }
 
