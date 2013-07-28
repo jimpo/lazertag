@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.WindowManager;
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -90,16 +92,21 @@ public class WaitActivity extends Activity {
                     return;
                 }
 
-                List<LazerUser> players = game_.getPlayers();
-                String playerID = getPlayerID();
-                for (int i = 0; i < players.size(); i++) {
-                    if (players.get(i).getObjectId().equals(playerID)) {
-                        players.remove(i);
-                        break;
-                    }
-                }
-                playersList.clear();
-                playersList.addAll(players);
+                game_.getPlayers(new FindCallback<LazerUser>() {
+
+					@Override
+					public void done(List<LazerUser> players, ParseException e) {
+		                String playerID = getPlayerID();
+		                for (int i = 0; i < players.size(); i++) {
+		                    if (players.get(i).getObjectId().equals(playerID)) {
+		                        players.remove(i);
+		                        break;
+		                    }
+		                }
+		                playersList.clear();
+		                playersList.addAll(players);						
+					}                	
+                });
             }
         });
 	}

@@ -3,6 +3,7 @@ package com.greylocku.lazer.models;
 import java.util.List;
 import java.util.Random;
 
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -56,7 +57,7 @@ public class LazerGame extends ParseObject{
 		put("name", value);
 	}
 
-	public List<LazerUser> getPlayers() {
+	public List<LazerUser> getPlayersSync() {
 		ParseQuery<LazerUser> query = LazerUser.query().whereEqualTo("game", this);
 		try {
 			return query.find();
@@ -65,6 +66,11 @@ public class LazerGame extends ParseObject{
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public void getPlayers(FindCallback<LazerUser> callback) {
+		ParseQuery<LazerUser> query = LazerUser.query().whereEqualTo("game", this);
+		query.findInBackground(callback);
 	}
 
 	public void persistSynchronously() {
@@ -92,13 +98,19 @@ public class LazerGame extends ParseObject{
 		return results.size() > 0 ? results.get(0) : null;
 	}
 	
-	public void registerHit(int color) {
-		for(LazerUser usr: getPlayers()){
-			if(usr.getColor() == color){
-				int h = usr.getHealth() - 1;
-				usr.setHealth(h);
-				break;
+	public void registerHit(final int color) {
+		getPlayers(new FindCallback<LazerUser>() {
+
+			@Override
+			public void done(List<LazerUser> players, ParseException e) {
+				for (LazerUser usr: players){
+					if(usr.getColor() == color){
+						int h = usr.getHealth() - 1;
+						usr.setHealth(h);
+						break;
+					}
+				}
 			}
-		}
+		});
 	}
 }

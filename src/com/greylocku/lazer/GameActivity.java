@@ -12,6 +12,8 @@ import org.opencv.imgproc.Imgproc;
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
 import com.greylocku.lazer.util.SoundEffects;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,19 +77,25 @@ public class GameActivity extends ColorBlobDetectionActivity {
     	mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				LazerUser oldPlayer = mPlayer;
-				mPlayer = LazerUser.find("objectid",  oldPlayer.getObjectId());
-				if (!canShoot()) {
-					timeoutOut--;
-					return;
-				}
-				if (mPlayer.getHealth() < oldPlayer.getHealth()) {
-					getShot();
-				}
-				if (mPlayer.getHealth() <= 0) {
-					endGame();
-					return;
-				}
+				mPlayer.fetchInBackground(new GetCallback<LazerUser>() {
+					@Override
+					public void done(LazerUser newPlayer, ParseException e) {
+						LazerUser oldPlayer = mPlayer;
+						mPlayer = newPlayer;
+						if (!canShoot()) {
+							timeoutOut--;
+							return;
+						}
+						if (mPlayer.getHealth() < oldPlayer.getHealth()) {
+							getShot();
+						}
+						if (mPlayer.getHealth() <= 0) {
+							endGame();
+							return;
+						}
+					}
+				});
+				
 			}
     	});
     }
@@ -115,7 +123,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 	
     public void makeColors(){
         colors = new ArrayList<Integer>();
-    	for (LazerUser player : mGame.getPlayers()) {
+    	for (LazerUser player : mGame.getPlayersSync()) {
     		colors.add(player.getColor());
     	}
     }
