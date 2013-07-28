@@ -6,10 +6,12 @@ import com.greylocku.lazer.util.SystemUiHider;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
-
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +58,7 @@ public class LaunchActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		initializeParse();
+//		testSound();
 		setContentView(R.layout.activity_launch);
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
@@ -193,4 +196,39 @@ public class LaunchActivity extends Activity {
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);
     }
+    
+    private SoundPool soundPool;
+    private Boolean loaded;
+    private int soundID;
+    
+//    public void testSound() {
+//        // Set the hardware buttons to control the music
+//        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+//        // Load the sound
+//        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+//        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+//          @Override
+//          public void onLoadComplete(SoundPool soundPool, int sampleId,
+//              int status) {
+//            loaded = true;
+//          }
+//        });
+//        soundID = soundPool.load(this, R.raw.charge, 1);
+//        
+//        
+//        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+//        float actualVolume = (float) audioManager
+//            .getStreamVolume(AudioManager.STREAM_MUSIC);
+//        float maxVolume = (float) audioManager
+//            .getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+//        float volume = actualVolume / maxVolume;
+//        
+//        while (true){
+//            if (loaded) {
+//                soundPool.play(soundID, volume, volume, 1, 0, 1f);
+//               // Log.e("Test", "Played sound");
+//              }
+//        }
+//        
+//    }
 }
