@@ -42,6 +42,11 @@
                   android:screenOrientation="landscape"
                   android:configChanges="keyboardHidden|orientation">
         </activity>
+        <activity android:name="com.greylocku.lazer.ColorPickerActivity"
+                  android:label="@string/title_activity_picker"
+                  android:screenOrientation="landscape"
+                  android:configChanges="keyboardHidden|orientation">
+        </activity>
     </application>
     
         <uses-permission android:name="android.permission.CAMERA"/>
