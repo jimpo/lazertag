@@ -82,11 +82,12 @@ public class GameActivity extends ColorBlobDetectionActivity {
 //            double dist = Math.sqrt(sum);
             float cd = colorDistance(shirt, target);
             Log.i(TAG, "Color Distance" + color + ": " + cd);
-            if (cd < 75 && cd < minDiff) {
+            if (cd < 18 && cd < minDiff) {
                 minDiff = cd;
                 bestColor = color;
             }
             if (bestColor != null) {
+                Log.i(TAG, "Hit" + color + ": " + cd);
                 mGame.registerHit(bestColor);
             }
         }
