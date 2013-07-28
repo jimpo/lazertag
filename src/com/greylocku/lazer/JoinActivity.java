@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import com.greylocku.lazer.models.LazerGame;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
@@ -11,9 +12,8 @@ import android.content.Intent;
 import android.view.Menu;
 
 
-import com.greylocku.lazer.models.*;
-
 import android.view.View;
+import android.widget.EditText;
 import android.graphics.PorterDuff;
 
 public class JoinActivity extends Activity {
@@ -34,7 +34,6 @@ public class JoinActivity extends Activity {
 		return intent.getBooleanExtra(NEW_GAME_FIELD, false);
     }
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -45,12 +44,14 @@ public class JoinActivity extends Activity {
 	public void joinGame(View view) {
 		LazerGame game;
 		if (isNewGame()) {
-
+			game = LazerGame.create();
 		}
 		else {
-
+			EditText input = (EditText)findViewById(R.id.game_id_input);
+			game = LazerGame.find(input.getText());
 		}
 		Intent intent = new Intent(this, WaitActivity.class);
+		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getName());
 		startActivity(intent);
 	}
 
