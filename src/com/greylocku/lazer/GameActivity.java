@@ -57,7 +57,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     public void activateHit(double[] rgba) {
 
-        int bestColor;
+        Integer bestColor = null;
         float minDiff = 9999999;
         for (Integer color : colors) {
             int r = Color.red(colors.get(color));
@@ -84,7 +84,10 @@ public class GameActivity extends ColorBlobDetectionActivity {
             Log.i(TAG, "Color Distance" + color + ": " + cd);
             if (cd < 75 && cd < minDiff) {
                 minDiff = cd;
-                bestColor = (int)color;
+                bestColor = color;
+            }
+            if (bestColor != null) {
+                mGame.registerHit(bestColor);
             }
         }
 
