@@ -5,6 +5,18 @@ import com.parse.ParseObject;
 
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
+	
+	public static LazerUser create(String name){
+		LazerUser generatedUser = new LazerUser();
+		generatedUser.setName(name);
+		generatedUser.setHealth("3");
+		generatedUser.persistSynchronously();
+		return generatedUser;
+	}
+	/*
+	 * Note: LazerUser cannot have a constructor 
+	 * that makes the object "dirty" (ie saves something to DB)
+	 */
 	public String getName() {
 		return getString("name");
 	}
@@ -29,4 +41,16 @@ public class LazerUser extends ParseObject{
 		put("color", value);
 	}
 	
+	public void persistSynchronously() {
+		try {
+			save();
+		} catch (com.parse.ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Goodluck Biatch");
+		}
+	}
+	
+	public void setBoilerPlate() {
+		setHealth("3");
+	}
 }

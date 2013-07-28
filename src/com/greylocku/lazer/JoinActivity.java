@@ -1,12 +1,17 @@
 package com.greylocku.lazer;
 
 import com.greylocku.lazer.models.LazerGame;
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseObject;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+
+
 import android.view.View;
 import android.widget.EditText;
 import android.graphics.PorterDuff;

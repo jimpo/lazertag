@@ -26,9 +26,7 @@ public class WaitActivity extends Activity {
 		game_input.setText(game_.getName());
 		
 		ListView players_list = (ListView)findViewById(R.id.others_list);
-		LazerUser[] players = new LazerUser[1];
-		players[0] = new LazerUser();
-		players[0].setName("Jim Posen");
+		LazerUser[] players = game_.getPlayers().toArray(new LazerUser[0]);
 		PlayerArrayAdapter adapter = new PlayerArrayAdapter(this, players);
 		players_list.setAdapter(adapter);
 	}

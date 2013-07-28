@@ -1,6 +1,11 @@
 package com.greylocku.lazer;
 
+import com.greylocku.lazer.models.LazerGame;
+import com.greylocku.lazer.models.LazerUser;
 import com.greylocku.lazer.util.SystemUiHider;
+import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseObject;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -49,7 +54,8 @@ public class LaunchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		initializeParse();
 		setContentView(R.layout.activity_launch);
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
@@ -174,4 +180,32 @@ public class LaunchActivity extends Activity {
 		intent.putExtra(JoinActivity.NEW_GAME_FIELD, newGame);
 		startActivity(intent);
 	}
+	
+	  public void initializeParse() {
+			//Initialize parse
+			// Add your initialization code here
+			ParseObject.registerSubclass(LazerUser.class);
+			ParseObject.registerSubclass(LazerGame.class);
+			Parse.initialize(this, "ZAxTBMrNWKxLc1vQT6s1RJWRK2ytQoY4TGCNmdXV", "nmYDNx1IghjEjPyXgTJyfSUiOxIyeEEGjqbMX2U7"); 
+
+			ParseACL defaultACL = new ParseACL();
+			// If you would like all objects to be private by default, remove this line.
+			defaultACL.setPublicReadAccess(true);
+			ParseACL.setDefaultACL(defaultACL, true);
+
+			
+			LazerUser testUser1 = LazerUser.create("zachy");
+			LazerUser testUser2 = LazerUser.create("jimmy");
+			
+			LazerGame game = LazerGame.create();
+			game.addPlayer(testUser1);
+			game.addPlayer(testUser2);
+			
+			for(LazerUser user:game.getPlayers())
+			{
+				System.out.println(user.getName());
+			}
+			
+		}
+
 }
