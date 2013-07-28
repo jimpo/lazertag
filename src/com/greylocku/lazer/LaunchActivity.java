@@ -193,7 +193,7 @@ public class LaunchActivity extends Activity {
 			defaultACL.setPublicReadAccess(true);
 			ParseACL.setDefaultACL(defaultACL, true);
 
-			/* Game Object
+
 			LazerGame game = LazerGame.create();
 			
 			//If you have the game object pass it in when creating the user
@@ -213,7 +213,7 @@ public class LaunchActivity extends Activity {
 			{
 				System.out.println(user.getName());
 			}
-			*/
+			
 			
 			
 		}
