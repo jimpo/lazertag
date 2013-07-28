@@ -34,7 +34,7 @@ public class WaitActivity extends Activity {
 	private LazerGame getGame() {
 		Intent intent = getIntent();
 		String name = intent.getStringExtra(GAME_ID_FIELD);
-		return LazerGame.find(name);
+		return LazerGame.findByGameName(name);
     }
 
 	@Override

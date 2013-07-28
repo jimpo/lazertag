@@ -1,6 +1,7 @@
 package com.greylocku.lazer;
 
 import com.greylocku.lazer.models.LazerGame;
+import com.greylocku.lazer.models.LazerUser;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
@@ -14,6 +15,7 @@ import android.view.Menu;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.graphics.PorterDuff;
 
 public class JoinActivity extends Activity {
@@ -48,11 +50,20 @@ public class JoinActivity extends Activity {
 		}
 		else {
 			EditText input = (EditText)findViewById(R.id.game_id_input);
-			game = LazerGame.find(input.getText());
+			game = LazerGame.findByGameName(input.getText().toString());
 		}
+		EditText nameInput = (EditText)findViewById(R.id.player_input);
+		LazerUser user = LazerUser.create(nameInput.getText().toString());
+		game.addPlayer(user);
+		game.persistSynchronously();
+		
 		Intent intent = new Intent(this, WaitActivity.class);
-		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getName());
+		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
 		startActivity(intent);
+	}
+	
+	public void showMessage(String message) {
+		Toast.makeText(this,  message,  Toast.LENGTH_SHORT).show();
 	}
 
 	public void takePicture(View view) {

@@ -193,7 +193,7 @@ public class LaunchActivity extends Activity {
 			defaultACL.setPublicReadAccess(true);
 			ParseACL.setDefaultACL(defaultACL, true);
 
-			
+			/*** Sample Code
 			LazerUser testUser1 = LazerUser.create("zachy");
 			LazerUser testUser2 = LazerUser.create("jimmy");
 			
@@ -205,6 +205,7 @@ public class LaunchActivity extends Activity {
 			{
 				System.out.println(user.getName());
 			}
+			*/
 		}
 
 }

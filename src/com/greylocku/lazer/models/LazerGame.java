@@ -14,7 +14,7 @@ import com.parse.ParseRelation;
 @ParseClassName("LazerGame")
 public class LazerGame extends ParseObject{
 	private static String GAME_NAME = "lazertag";
-	private static int ID_LENGTH = 5;
+	private static int ID_MAX = 100000;
 	private static String RELATIONAL_FIELD = "players";
 	
 	private ParseRelation<LazerUser> playerRelation = getRelation(RELATIONAL_FIELD);
@@ -22,20 +22,15 @@ public class LazerGame extends ParseObject{
 	
 	public static LazerGame create(){
 		LazerGame generatedGame = new LazerGame();
-		String inMemoryName = GAME_NAME + "_" + randomNumericalString(ID_LENGTH);
+		String inMemoryName = GAME_NAME + "_" + randomNumericalString();
 		generatedGame.setName(inMemoryName);
 		generatedGame.persistSynchronously();
 		return generatedGame;
 	}
 	
-	private static String randomNumericalString(int x) {
+	private static String randomNumericalString() {
 	    Random randomGenerator = new Random();
-	    String randString = "";
-	    for (int idx = 1; idx <= x; ++idx){
-	      int randomInt = randomGenerator.nextInt(100);
-	      randString = randString + randomInt;
-	    }
-	    return randString;
+	    return "" + randomGenerator.nextInt(ID_MAX);
 	}
 	
 	public String getName() {
@@ -55,7 +50,7 @@ public class LazerGame extends ParseObject{
 			return playerRelation.getQuery().find();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException("Goodluck Biatch");
+			throw new RuntimeException(e.toString());
 		}
 	}
 	
@@ -64,7 +59,7 @@ public class LazerGame extends ParseObject{
 			save();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException("Goodluck Biatch");
+			throw new RuntimeException(e.toString());
 		}
 	}
 	
@@ -76,7 +71,7 @@ public class LazerGame extends ParseObject{
 			results = query.find();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException("Goodluck Biatch");
+			throw new RuntimeException(e.toString());
 		}
 		if (results.size() == 0){
 			return null;
