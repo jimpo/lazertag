@@ -6,8 +6,10 @@ import java.util.TimerTask;
 
 import android.util.Log;
 import android.view.WindowManager;
+
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
+import com.greylocku.lazer.util.SoundEffects;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 
@@ -33,6 +35,9 @@ public class WaitActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		SoundEffects.play(this, R.raw.charge);
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wait);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -130,6 +135,7 @@ public class WaitActivity extends Activity {
 	}
 	
 	public void startGame(View view) {
+		SoundEffects.play(this, R.raw.countdown);
 		game_.start();
 	}
 

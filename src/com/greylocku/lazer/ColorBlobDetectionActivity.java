@@ -78,7 +78,6 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
-        Log.i(TAG, "Has Flash: " + getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH));
     }
 
     @Override
@@ -139,7 +138,6 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         Mat targetRegionHsv = new Mat();
         // convert RGBA to HSV
         Imgproc.cvtColor(targetRegionRgba, targetRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
-
         MatOfDouble mean = new MatOfDouble();
         MatOfDouble stddev = new MatOfDouble();
         Core.meanStdDev(targetRegionHsv, mean, stddev);
@@ -152,10 +150,9 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
                 ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
-
 //        if (std[0] > 70) {
 ////        if (stddev.get(0, 0)[0] > 70 && stddev.get(1, 0)[0] > 15) {
-//            if (callTouchEvent > 0) {
+//            if (callTouchEvent > 0) {                   mrgba
 //                callTouchEvent--;
 //            } else {
 //                callTouchEvent = 10;
@@ -184,9 +181,8 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 //            this.onTouch(null, null);
 //        }
         // update color labels
-        Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-        colorLabel.setTo(mBlobColorRgba);
-
+//        Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//        colorLabel.setTo(mBlobColorRgba);
         return mRgba;
     }
 
