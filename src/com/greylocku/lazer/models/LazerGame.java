@@ -2,23 +2,14 @@ package com.greylocku.lazer.models;
 
 import java.util.List;
 import java.util.Random;
-
-import android.net.ParseException;
-
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 
 @ParseClassName("LazerGame")
 public class LazerGame extends ParseObject{
 	private static String GAME_NAME = "lazertag";
 	private static int ID_MAX = 100000;
-	private static String RELATIONAL_FIELD = "players";
-	
-	private ParseRelation<LazerUser> playerRelation = getRelation(RELATIONAL_FIELD);
-
 	
 	public static LazerGame create(){
 		LazerGame generatedGame = new LazerGame();
@@ -41,16 +32,15 @@ public class LazerGame extends ParseObject{
 		put("name", value);
 	}
 	
-	public void addPlayer(LazerUser user) {
-		playerRelation.add(user);
-	}
-	
 	public List<LazerUser> getPlayers() {
+		ParseQuery<LazerUser> query = ParseQuery.getQuery("LazerUser");
+		query.whereEqualTo("game", this);
 		try {
-			return playerRelation.getQuery().find();
+			return query.find();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e.toString());
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
@@ -63,10 +53,10 @@ public class LazerGame extends ParseObject{
 		}
 	}
 	
-	public static LazerGame findByGameName(String name){
+	public static LazerGame find(String column, String name){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("LazerGame");
 		List<ParseObject> results;
-		query.whereEqualTo("name", name);
+		query.whereEqualTo(column, name);
 		try {
 			results = query.find();
 		} catch (com.parse.ParseException e) {

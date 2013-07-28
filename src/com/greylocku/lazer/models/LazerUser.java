@@ -6,10 +6,11 @@ import com.parse.ParseObject;
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
 	
-	public static LazerUser create(String name){
+	public static LazerUser create(String name, LazerGame game){
 		LazerUser generatedUser = new LazerUser();
 		generatedUser.setName(name);
 		generatedUser.setHealth("3");
+		generatedUser.put("game", game);
 		generatedUser.persistSynchronously();
 		return generatedUser;
 	}
@@ -48,9 +49,5 @@ public class LazerUser extends ParseObject{
 			// TODO Auto-generated catch block
 			throw new RuntimeException("Goodluck Biatch");
 		}
-	}
-	
-	public void setBoilerPlate() {
-		setHealth("3");
 	}
 }

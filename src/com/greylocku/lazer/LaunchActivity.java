@@ -193,19 +193,29 @@ public class LaunchActivity extends Activity {
 			defaultACL.setPublicReadAccess(true);
 			ParseACL.setDefaultACL(defaultACL, true);
 
-			/*** Sample Code
-			LazerUser testUser1 = LazerUser.create("zachy");
-			LazerUser testUser2 = LazerUser.create("jimmy");
-			
+			/* Game Object
 			LazerGame game = LazerGame.create();
-			game.addPlayer(testUser1);
-			game.addPlayer(testUser2);
+			
+			//If you have the game object pass it in when creating the user
+			LazerUser testUser1 = LazerUser.create("zachy", game);
+			LazerUser testUser2 = LazerUser.create("jimmy", game);
+			
+			for(LazerUser user:game.getPlayers())
+			{
+				System.out.println(user.getName());
+			}
+			
+			//If you dont have the game object, search for it first and then pass it in
+			LazerGame g = LazerGame.find("name", game.getName());
+			LazerUser testUser3 = LazerUser.create("kushal", g);
 			
 			for(LazerUser user:game.getPlayers())
 			{
 				System.out.println(user.getName());
 			}
 			*/
+			
+			
 		}
 
 }

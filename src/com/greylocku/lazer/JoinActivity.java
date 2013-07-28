@@ -50,12 +50,12 @@ public class JoinActivity extends Activity {
 		}
 		else {
 			EditText input = (EditText)findViewById(R.id.game_id_input);
-			game = LazerGame.findByGameName(input.getText().toString());
+			game = LazerGame.find("name", input.getText().toString());
 		}
 		EditText nameInput = (EditText)findViewById(R.id.player_input);
-		LazerUser user = LazerUser.create(nameInput.getText().toString());
-		game.addPlayer(user);
-		game.persistSynchronously();
+		//LazerUser user = LazerUser.create(nameInput.getText().toString());
+//		game.addPlayer(user);
+//		game.persistSynchronously();
 		
 		Intent intent = new Intent(this, WaitActivity.class);
 		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
