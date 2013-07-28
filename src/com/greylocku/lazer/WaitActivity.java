@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -47,6 +48,9 @@ public class WaitActivity extends Activity {
 		PlayerArrayAdapter othersAdapter = new PlayerArrayAdapter(this, players.toArray(new LazerUser[0]));
 		youList.setAdapter(youAdapter);
 		playersList.setAdapter(othersAdapter);
+		
+		View startButton = findViewById(R.id.start_button);
+		startButton.setVisibility(player_.isOwner() ? View.VISIBLE : View.GONE);
 	}
 
 	private LazerGame getGame() {
