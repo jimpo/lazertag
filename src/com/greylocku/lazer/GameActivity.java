@@ -78,11 +78,11 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
 	private void updateStatsInUIThread() {
 		mHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				updateStats();
-			}
-		});
+            @Override
+            public void run() {
+                updateStats();
+            }
+        });
 	}
 
 	private void updateStats() {
@@ -151,7 +151,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
         Point start = new Point(4, 700);
 //        Mat heartspace = mrgba.submat(4, 64, 4, 64);
 //        Imgproc.resize(heart, heart, new Size(64, 64));
-//        heartspace.setTo(heart);
+//        heartspace.setTo(new Scalar(255, 255, 255, 255));
 //        for (int i = 0; i < mPlayer.getHealth(); i++) {
 //            Core.add(mrgba, heart, mrgba);
 //

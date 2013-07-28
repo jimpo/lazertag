@@ -152,7 +152,7 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 
 //        if (std[0] > 70) {
 ////        if (stddev.get(0, 0)[0] > 70 && stddev.get(1, 0)[0] > 15) {
-//            if (callTouchEvent > 0) {
+//            if (callTouchEvent > 0) {                   mrgba
 //                callTouchEvent--;
 //            } else {
 //                callTouchEvent = 10;
@@ -181,8 +181,8 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 //            this.onTouch(null, null);
 //        }
         // update color labels
-        Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-        colorLabel.setTo(mBlobColorRgba);
+//        Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//        colorLabel.setTo(mBlobColorRgba);
         return mRgba;
     }
 
