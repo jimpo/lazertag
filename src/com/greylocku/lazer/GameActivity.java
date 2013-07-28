@@ -68,30 +68,34 @@ public class GameActivity extends ColorBlobDetectionActivity {
 		return timeoutOut == 0;
 	}
     
-    private void updateStats() {
+    private void updateStatsInUIThread() {
     	mHandler.post(new Runnable() {
 			@Override
 			public void run() {
-				mPlayer.fetchInBackground(new GetCallback<LazerUser>() {
-					@Override
-					public void done(LazerUser newPlayer, ParseException e) {
-						LazerUser oldPlayer = mPlayer;
-						mPlayer = newPlayer;
-						if (!canShoot()) {
-							timeoutOut--;
-							return;
-						}
-						if (mPlayer.getHealth() < oldPlayer.getHealth()) {
-							getShot();
-						}
-						if (mPlayer.getHealth() <= 0) {
-							endGame();
-							return;
-						}
-					}
-				});
+				
 			}
     	});
+    }
+    
+    private void updateStats() {
+    	mPlayer.fetchInBackground(new GetCallback<LazerUser>() {
+		@Override
+		public void done(LazerUser newPlayer, ParseException e) {
+			LazerUser oldPlayer = mPlayer;
+			mPlayer = newPlayer;
+			if (!canShoot()) {
+				timeoutOut--;
+			return;
+			}
+			if (mPlayer.getHealth() < oldPlayer.getHealth()) {
+				getShot();
+			}
+			if (mPlayer.getHealth() <= 0) {
+				endGame();
+				return;
+			}
+		}
+		});
     }
     
     private void endGame() {
