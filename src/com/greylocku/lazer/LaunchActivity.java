@@ -162,11 +162,16 @@ public class LaunchActivity extends Activity {
 	}
 	
 	public void newGame(View view) {
-		joinGame(view);
+		joinGame(view, true);
 	}
 	
 	public void joinGame(View view) {
+		joinGame(view, false);
+	}
+	
+	public void joinGame(View view, boolean newGame) {
 		Intent intent = new Intent(this, JoinActivity.class);
+		intent.putExtra(JoinActivity.NEW_GAME_FIELD, newGame);
 		startActivity(intent);
 	}
 }
