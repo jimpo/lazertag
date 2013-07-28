@@ -14,6 +14,7 @@ public class LazerGame extends ParseObject{
 	private static int ID_MAX = 100000;
 	private static int STATUS_READY = 1;
 	private static int STATUS_STARTED = 2;
+	private static int STATUS_OVER = 3;
 
 
 	public static LazerGame create(){
@@ -32,12 +33,12 @@ public class LazerGame extends ParseObject{
 
 	public void start() {
         put("status", STATUS_STARTED);
-		try {
-			save();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		persistSynchronously();
+	}
+	
+	public void end() {
+        put("status", STATUS_OVER);
+		persistSynchronously();
 	}
 	
 	public boolean isStarted() {
