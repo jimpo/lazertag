@@ -8,6 +8,12 @@ import com.parse.ParseUser;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import com.greylocku.lazer.models.*;
 
 public class JoinActivity extends Activity {
 
@@ -18,6 +24,8 @@ public class JoinActivity extends Activity {
 		
 		//Initialize parse
 		// Add your initialization code here
+		ParseObject.registerSubclass(LazerUser.class);
+		ParseObject.registerSubclass(LazerGame.class);
 		Parse.initialize(this, "ZAxTBMrNWKxLc1vQT6s1RJWRK2ytQoY4TGCNmdXV", "nmYDNx1IghjEjPyXgTJyfSUiOxIyeEEGjqbMX2U7"); 
 
 		ParseACL defaultACL = new ParseACL();	    
@@ -26,11 +34,18 @@ public class JoinActivity extends Activity {
 		ParseACL.setDefaultACL(defaultACL, true);
 		
 		//demo saving
-		ParseObject gameScore = new ParseObject("GameScore");
-		gameScore.put("score", 1337);
-		gameScore.put("playerName", "Sean Plott");
-		gameScore.put("cheatMode", false);
-		gameScore.saveInBackground();
+		//ParseObject gameScore = new ParseObject("GameScore");
+		LazerUser testUser = new LazerUser();
+		testUser.setName("username");
+		testUser.saveInBackground();
+		
+		LazerGame game = new LazerGame();
+		game.setName("coolgame");
+		game.saveInBackground();
+//		gameScore.put("score", 1337);
+//		gameScore.put("playerName", "Sean Plott");
+//		gameScore.put("cheatMode", false);
+//		gameScore.saveInBackground();
 	}
 
 	@Override
