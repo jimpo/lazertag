@@ -2,14 +2,13 @@ package com.greylocku.lazer;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
+import com.greylocku.lazer.models.util.Color;
 
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
-
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,7 +49,7 @@ public class JoinActivity extends Activity {
 			game = LazerGame.find("name", input.getText().toString());
 		}
 		EditText nameInput = (EditText)findViewById(R.id.player_input);
-		LazerUser user = LazerUser.create(nameInput.getText().toString(), game, isNewGame());
+		LazerUser user = LazerUser.create(nameInput.getText().toString(), game, isNewGame(), new Color(new Double(69), new Double(69), new Double(69)), 69);
 
 		Intent intent = new Intent(this, WaitActivity.class);
 		intent.putExtra(WaitActivity.GAME_ID_FIELD, game.getObjectId());
