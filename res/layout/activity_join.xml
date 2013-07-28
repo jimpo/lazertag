@@ -9,31 +9,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".JoinActivity" >
 
+    <View
+    	android:id="@+id/player_color"
+    	android:layout_width="25dp"
+        android:layout_height="25dp"
+    	android:background="@drawable/rectangle"/>
+    
+    
     <EditText android:id="@+id/game_id_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/game_id_prompt"
+        android:gravity="bottom"
         android:inputType="number" />
     
     <EditText android:id="@+id/player_input"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:textCursorDrawable="@null"
         android:hint="@string/player_name_prompt" />
     
     <ImageButton
-    	android:id="@+id/picture_button"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:src="@drawable/ic_action_photo"
-    	android:layout_weight="1"
-		android:onClick="takePicture" />
-    
-	<Button
-		android:id="@+id/join_button"
-        style="?buttonBarButtonStyle"
+        android:id="@+id/picture_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/join_button"
-        android:onClick="joinGame" />
+        android:layout_weight="1"
+        android:onClick="takePicture"
+        android:background="#444444"
+        android:src="@drawable/ic_action_photo" />
+    
+	<Button
+	    android:id="@+id/join_button"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:longClickable="false"
+	    android:onClick="joinGame"
+	    android:background="#7EC47D"
+	    android:text="@string/join_button" />
 
 </LinearLayout>

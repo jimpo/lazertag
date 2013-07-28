@@ -34,13 +34,6 @@ public class JoinActivity extends Activity {
 		return intent.getBooleanExtra(NEW_GAME_FIELD, false);
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.join, menu);
-		return true;
-	}
-
 	public void joinGame(View view) {
 		LazerGame game;
 		if (isNewGame()) {

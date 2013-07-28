@@ -33,12 +33,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@style/FullscreenTheme"
             android:name="com.greylocku.lazer.JoinActivity"
             android:label="@string/title_activity_join"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.greylocku.lazer.WaitActivity"
+            android:theme="@style/FullscreenTheme"
             android:label="@string/title_activity_wait"
             android:screenOrientation="portrait" >
         </activity>
@@ -61,6 +63,7 @@
         </activity>
         <activity
             android:name="com.greylocku.lazer.GameOverActivity"
+            android:theme="@style/FullscreenTheme"
             android:label="@string/title_activity_game_over" >
         </activity>
     </application>
