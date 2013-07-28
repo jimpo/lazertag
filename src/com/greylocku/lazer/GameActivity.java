@@ -129,12 +129,12 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     public void activateHit(double[] rgba) {
 
-        double[] weight = {4, .1, .2};
-
+        Integer bestColor = null;
+        float minDiff = 9999999;
         for (Integer color : colors) {
-            int r = Color.red(colors.get(color));
-            int g = Color.green(colors.get(color));
-            int b = Color.blue(colors.get(color));
+            int r = Color.red(color);
+            int g = Color.green(color);
+            int b = Color.blue(color);
             float[] shirt = new float[3];
             rgb2lab(r, g, b, shirt);
 
@@ -152,7 +152,16 @@ public class GameActivity extends ColorBlobDetectionActivity {
 //                sum += Math.pow(meanHSV[i] - hsv[i], 2) * weight[i];
 //            }
 //            double dist = Math.sqrt(sum);
-            Log.i(TAG, "Color Distance" + color + ": " + colorDistance(shirt, target));
+            float cd = colorDistance(shirt, target);
+            Log.i(TAG, "Color Distance" + color + ": " + cd);
+            if (cd < 18 && cd < minDiff) {
+                minDiff = cd;
+                bestColor = color;
+            }
+            if (bestColor != null) {
+                Log.i(TAG, "Hit" + color + ": " + cd);
+                mGame.registerHit(bestColor);
+            }
         }
 
     }
