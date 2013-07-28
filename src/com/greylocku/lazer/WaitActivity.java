@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.util.Log;
 import android.view.WindowManager;
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
@@ -81,6 +82,7 @@ public class WaitActivity extends Activity {
 
             @Override
             public void run() {
+            	Log.d("STARTED", "" + game_.getInt("status"));
                 if (game_.isStarted()) {
                     Intent intent = new Intent(that, GameActivity.class);
                     startActivity(intent);

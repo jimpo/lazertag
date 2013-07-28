@@ -34,7 +34,8 @@ public class LazerGame extends ParseObject{
 	}
 	
 	public boolean isStarted() {
-		return getInt("status") == STATUS_STARTED;
+		LazerGame game = LazerGame.find("objectId", getObjectId());
+		return game.getInt("status") == STATUS_STARTED;
 	}
 	
 	public String getName() {
