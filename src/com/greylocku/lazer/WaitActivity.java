@@ -23,6 +23,8 @@ public class WaitActivity extends Activity {
 	private LazerGame game_;
 	private LazerUser player_;
 	private Handler mHandler;
+	private Timer mTimer;
+	private TimerTask mTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +52,23 @@ public class WaitActivity extends Activity {
 		View startButton = findViewById(R.id.start_button);
 		startButton.setVisibility(player_.isOwner() ? View.VISIBLE : View.GONE);
 		
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		mTimer = new Timer();
+		mTask = new TimerTask() {
 			public void run() {
 				updateLists(othersAdapter);
 			}
-		}, 0, 5000);
+		};
+	}
+	
+	@Override
+	public void onResume() {
+		mTimer.scheduleAtFixedRate(mTask, 0, 5000);
+		super.onResume();
+	}
+	
+	public void onPause() {
+		mTimer.cancel();
+		super.onPause();
 	}
 	
 	private void updateLists(final PlayerArrayAdapter playersList) {
