@@ -47,6 +47,8 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
         double[] weight = {4, .1, .2};
 
+        int bestColor;
+        float minDiff = 9999999;
         for (String color : colors.keySet()) {
             int r = Color.red(colors.get(color));
             int g = Color.green(colors.get(color));
@@ -68,7 +70,12 @@ public class GameActivity extends ColorBlobDetectionActivity {
 //                sum += Math.pow(meanHSV[i] - hsv[i], 2) * weight[i];
 //            }
 //            double dist = Math.sqrt(sum);
-            Log.i(TAG, "Color Distance" + color + ": " + colorDistance(shirt, target));
+            float cd = colorDistance(shirt, target);
+            Log.i(TAG, "Color Distance" + color + ": " + cd);
+            if (cd < 75 && cd < minDiff) {
+                minDiff = cd;
+                bestColor = colors.get(color);
+            }
         }
 
     }
