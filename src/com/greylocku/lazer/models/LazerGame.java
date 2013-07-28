@@ -104,6 +104,7 @@ public class LazerGame extends ParseObject{
 					if(usr.getColor() == color){
 						int h = usr.getHealth() - 1;
 						usr.setHealth(h);
+                        usr.persistSynchronously();
 						break;
 					}
 				}
