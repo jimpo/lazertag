@@ -9,7 +9,7 @@
     <string name="dummy_content">Welcome</string>
     <string name="title_activity_join">Join a Game</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">game over</string>
     <string name="title_activity_wait">Waiting for others</string>
     <string name="game_id_label">Game Code</string>
     <string name="you_label">You</string>
