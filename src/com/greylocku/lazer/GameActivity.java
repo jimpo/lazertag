@@ -65,7 +65,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 	}
 	
 	private boolean canShoot() {
-		return timeoutOut == 0;
+		return timeoutOut <= 0;
 	}
     
     private void updateStatsInUIThread() {
@@ -128,7 +128,9 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     @Override
     public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean){
+    	Log.d("FINISHUP", "SHOOTING");
     	if (canShoot()) {
+    		Log.d("FINISHUP", "SHOT");
     		this.activateHit(mBlobColorRgba.val);
     	}
     }

@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ColorBlobDetectionActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
-    public static final String  TAG              = "OCVSample::Activity";
+    public static final String  TAG              = "DAJIM";
     // fields for the game
     public static final int RADIUS = 10;
 
