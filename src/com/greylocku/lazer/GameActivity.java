@@ -33,8 +33,8 @@ public class GameActivity extends ColorBlobDetectionActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.makeColors();
         mGame = getGame();
+        this.makeColors();
     }
     
 	private LazerGame getGame() {
@@ -60,9 +60,9 @@ public class GameActivity extends ColorBlobDetectionActivity {
         Integer bestColor = null;
         float minDiff = 9999999;
         for (Integer color : colors) {
-            int r = Color.red(colors.get(color));
-            int g = Color.green(colors.get(color));
-            int b = Color.blue(colors.get(color));
+            int r = Color.red(color);
+            int g = Color.green(color);
+            int b = Color.blue(color);
             float[] shirt = new float[3];
             rgb2lab(r, g, b, shirt);
 
