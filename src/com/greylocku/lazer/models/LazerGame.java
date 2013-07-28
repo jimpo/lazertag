@@ -8,6 +8,7 @@ import android.net.ParseException;
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 
 @ParseClassName("LazerGame")
@@ -21,7 +22,8 @@ public class LazerGame extends ParseObject{
 	
 	public static LazerGame create(){
 		LazerGame generatedGame = new LazerGame();
-		generatedGame.setName(GAME_NAME + "_" + randomNumericalString(ID_LENGTH));
+		String inMemoryName = GAME_NAME + "_" + randomNumericalString(ID_LENGTH);
+		generatedGame.setName(inMemoryName);
 		generatedGame.persistSynchronously();
 		return generatedGame;
 	}
@@ -63,6 +65,24 @@ public class LazerGame extends ParseObject{
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException("Goodluck Biatch");
+		}
+	}
+	
+	public static LazerGame findByGameName(String name){
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("LazerGame");
+		List<ParseObject> results;
+		query.whereEqualTo("name", name);
+		try {
+			results = query.find();
+		} catch (com.parse.ParseException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Goodluck Biatch");
+		}
+		if (results.size() == 0){
+			return null;
+		}
+		else {
+			return (LazerGame) results.get(0);	
 		}
 	}
 	

@@ -205,7 +205,6 @@ public class LaunchActivity extends Activity {
 			{
 				System.out.println(user.getName());
 			}
-			
 		}
 
 }
