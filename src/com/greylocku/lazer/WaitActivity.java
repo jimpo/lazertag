@@ -10,6 +10,7 @@ import com.greylocku.lazer.models.LazerUser;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
@@ -72,10 +73,17 @@ public class WaitActivity extends Activity {
 	}
 	
 	private void updateLists(final PlayerArrayAdapter playersList) {
+		final Context that = this;
 		mHandler.post(new Runnable() {
 
 		@Override
 		public void run() {
+			if (game_.isStarted()) {
+				Intent intent = new Intent(that, GameActivity.class);
+				startActivity(intent);
+				return;
+			}
+			
 			List<LazerUser> players = game_.getPlayers();
 			String playerID = getPlayerID();
 			for (int i = 0; i < players.size(); i++) {
@@ -106,6 +114,10 @@ public class WaitActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.wait, menu);
 		return true;
+	}
+	
+	public void startGame(View view) {
+		game_.start();
 	}
 
 }

@@ -10,12 +10,15 @@ import com.parse.ParseQuery;
 @ParseClassName("LazerGame")
 public class LazerGame extends ParseObject{
 	private static int ID_MAX = 100000;
+	private static int STATUS_READY = 1;
+	private static int STATUS_STARTED = 2;
 
 
 	public static LazerGame create(){
 		LazerGame generatedGame = new LazerGame();
 		String inMemoryName = randomNumericalString();
 		generatedGame.setName(inMemoryName);
+		generatedGame.put("status", STATUS_READY);
 		generatedGame.persistSynchronously();
 		return generatedGame;
 	}
@@ -25,6 +28,15 @@ public class LazerGame extends ParseObject{
 	    return "" + randomGenerator.nextInt(ID_MAX);
 	}
 
+	public void start() {
+		put("status", STATUS_STARTED);
+		saveInBackground();
+	}
+	
+	public boolean isStarted() {
+		return getInt("status") == STATUS_STARTED;
+	}
+	
 	public String getName() {
 		return getString("name");
 	}
