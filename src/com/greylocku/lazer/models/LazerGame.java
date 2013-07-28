@@ -69,4 +69,14 @@ public class LazerGame extends ParseObject{
 		}
 		return results.size() > 0 ? results.get(0) : null;
 	}
+	
+	public void registerHit(String color) {
+		for(LazerUser usr: getPlayers()){
+			if(usr.getColor().equals(color)){
+				int h = Integer.parseInt(usr.getHealth()) - 1;
+				usr.setHealth(h + "");
+				break;
+			}
+		}
+	}
 }

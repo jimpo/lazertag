@@ -9,10 +9,11 @@ import com.parse.ParseQuery;
 @ParseClassName("LazerUser")
 public class LazerUser extends ParseObject{
 
-	public static LazerUser create(String name, LazerGame game){
+	public static LazerUser create(String name, LazerGame game, Boolean isowner){
 		LazerUser generatedUser = new LazerUser();
 		generatedUser.setName(name);
 		generatedUser.setHealth("3");
+		generatedUser.setOwner(isowner);
 		generatedUser.put("game", game);
 		generatedUser.persistSynchronously();
 		return generatedUser;
@@ -44,6 +45,15 @@ public class LazerUser extends ParseObject{
 	public void setColor(String value) {
 		put("color", value);
 	}
+	
+	public Boolean isOwner() {
+		return getBoolean("owner");
+	}
+
+	public void setOwner(Boolean value) {
+		put("owner", value);
+	}
+
 
 	public void persistSynchronously() {
 		try {
@@ -69,4 +79,5 @@ public class LazerUser extends ParseObject{
 		}
 		return results.size() > 0 ? results.get(0) : null;
 	}
+	
 }
