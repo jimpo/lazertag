@@ -4,11 +4,12 @@
     <string name="app_name">Lazer Tag</string>
     <string name="new_game_button">New Game</string>
     <string name="join_game_button">Join Game</string>
-    <string name="join_button">Join</string>
+    <string name="join_button">Continue</string>
     <string name="game_id_prompt">Enter the game ID</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_join">JoinActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_wait">WaitActivity</string>
 
 </resources>
