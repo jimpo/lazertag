@@ -18,5 +18,7 @@
     <string name="player_name_prompt">Your name</string>
     <string name="title_activity_daint">Da Int</string>
     <string name="title_activity_picker">ColorPickerActivity</string>
+    <string name="title_activity_game">GameActivity</string>
+
 
 </resources>

@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import android.os.Bundle;
 import android.util.Log;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.Scalar;
@@ -16,11 +17,16 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class GameActivity extends ColorBlobDetectionActivity {
-    @Override
-    public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean){
-        this.activateHit(mean.toArray());
+
+    private Map<String, double[]> colors;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.makeColors();
     }
-    public void activateHit(double[] meanHSV) {
+
+
+    public void makeColors(){
         Map<String, double[]> colors = new HashMap<String, double[]>();
         colors.put("White", new double[]{0, 0, 255});
         colors.put("Black", new double[]{0, 255, 0});
@@ -32,6 +38,14 @@ public class GameActivity extends ColorBlobDetectionActivity {
         colors.put("Yellow", new double[]{60, 255, 255});
         colors.put("Green", new double[]{120 , 255, 255});
         colors.put("TreeGreen", new double[]{50 , 171, 77});
+    }
+
+    @Override
+    public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean){
+        this.activateHit(mean.toArray());
+    }
+
+    public void activateHit(double[] meanHSV) {
 
         double[] weight = {4, .1, .2};
 
