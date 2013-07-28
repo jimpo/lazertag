@@ -63,7 +63,7 @@ public class JoinActivity extends Activity {
 	}
 
 	public void takePicture(View view) {
-	    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+	    Intent takePictureIntent = new Intent(this, ColorBlobDetectionActivity.class);
 	    startActivityForResult(takePictureIntent, TAKE_PICTURE_ACTION);
 	}
 
@@ -76,7 +76,8 @@ public class JoinActivity extends Activity {
 	}
 
 	private void handlePictureTaken(Intent data) {
+		int color = (int)data.getExtras().getLong("colorRGBA");
 		View button = findViewById(R.id.picture_button);
-		button.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+		button.setBackgroundColor(color);
 	}
  }
