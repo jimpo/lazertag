@@ -1,5 +1,6 @@
 package com.greylocku.lazer;
 
+import android.view.WindowManager;
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
 
@@ -21,8 +22,10 @@ public class JoinActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_join);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		View game_input = findViewById(R.id.game_id_input);
+
+        View game_input = findViewById(R.id.game_id_input);
 		game_input.setVisibility(isNewGame() ? View.GONE : View.VISIBLE);
 	}
 

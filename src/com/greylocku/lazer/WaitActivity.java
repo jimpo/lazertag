@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.view.WindowManager;
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
 
@@ -31,8 +32,10 @@ public class WaitActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wait);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		game_ = getGame();
+
+        game_ = getGame();
 		mHandler = new Handler();
 
 		TextView game_input = (TextView)findViewById(R.id.game_id_field);
@@ -76,26 +79,26 @@ public class WaitActivity extends Activity {
 		final Context that = this;
 		mHandler.post(new Runnable() {
 
-		@Override
-		public void run() {
-			if (game_.isStarted()) {
-				Intent intent = new Intent(that, GameActivity.class);
-				startActivity(intent);
-				return;
-			}
-			
-			List<LazerUser> players = game_.getPlayers();
-			String playerID = getPlayerID();
-			for (int i = 0; i < players.size(); i++) {
-				if (players.get(i).getObjectId().equals(playerID)) {
-					players.remove(i);
-					break;
-				}
-			}
-		playersList.clear();
-		playersList.addAll(players);
-		}
-		});
+            @Override
+            public void run() {
+                if (game_.isStarted()) {
+                    Intent intent = new Intent(that, GameActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+
+                List<LazerUser> players = game_.getPlayers();
+                String playerID = getPlayerID();
+                for (int i = 0; i < players.size(); i++) {
+                    if (players.get(i).getObjectId().equals(playerID)) {
+                        players.remove(i);
+                        break;
+                    }
+                }
+                playersList.clear();
+                playersList.addAll(players);
+            }
+        });
 	}
 
 	private LazerGame getGame() {
