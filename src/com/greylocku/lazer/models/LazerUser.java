@@ -24,7 +24,8 @@ public class LazerUser extends ParseObject{
 	 * that makes the object "dirty" (ie saves something to DB)
 	 */
 	public String getName() {
-		return getString("name");
+        LazerUser usr = LazerUser.find("objectId", getObjectId());
+		return usr.getString("name");
 	}
 
 	public void setName(String value) {
@@ -32,7 +33,8 @@ public class LazerUser extends ParseObject{
 	}
 
 	public int getHealth() {
-		return getInt("health");
+        LazerUser usr = LazerUser.find("objectId", getObjectId());
+		return usr.getInt("health");
 	}
 
 	public void setHealth(int value) {
@@ -40,7 +42,8 @@ public class LazerUser extends ParseObject{
 	}
 
 	public int getColor() {
-		return getInt("color");
+        LazerUser usr = LazerUser.find("objectId", getObjectId());
+		return usr.getInt("color");
 	}
 
 	public void setColor(int color) {
@@ -48,7 +51,8 @@ public class LazerUser extends ParseObject{
 	}
 		
 	public Boolean isOwner() {
-		return getBoolean("owner");
+        LazerUser usr = LazerUser.find("objectId", getObjectId());
+		return usr.getBoolean("owner");
 	}
 
 	public void setOwner(Boolean value) {
@@ -61,7 +65,7 @@ public class LazerUser extends ParseObject{
 			save();
 		} catch (com.parse.ParseException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException("Goodluck Biatch");
+			throw new RuntimeException(e.toString());
 		}
 	}
 

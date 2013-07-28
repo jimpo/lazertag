@@ -7,19 +7,14 @@ import android.os.Handler;
 import android.util.Log;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 
 import com.greylocku.lazer.models.LazerGame;
 import com.greylocku.lazer.models.LazerUser;
-import com.greylocku.lazer.util.SoundEffects;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,7 +55,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
 	
 	@Override
 	public void onResume() {
-		mTimer.scheduleAtFixedRate(mTask, 0, 500);
+		mTimer.scheduleAtFixedRate(mTask, 0, 2000);
 		super.onResume();
 	}
 	
@@ -95,7 +90,6 @@ public class GameActivity extends ColorBlobDetectionActivity {
 						}
 					}
 				});
-				
 			}
     	});
     }
@@ -106,7 +100,7 @@ public class GameActivity extends ColorBlobDetectionActivity {
     
     private void getShot() {
     	timeoutOut = 6;
-    	SoundEffects.play(this, R.raw.hit);
+    	//SoundEffects.play(this, R.raw.hit);
     }
     
 	private LazerGame getGame() {

@@ -69,7 +69,7 @@ public class WaitActivity extends Activity {
 	
 	@Override
 	public void onResume() {
-		mTimer.scheduleAtFixedRate(mTask, 0, 500);
+		mTimer.scheduleAtFixedRate(mTask, 0, 2000);
 		super.onResume();
 	}
 	
