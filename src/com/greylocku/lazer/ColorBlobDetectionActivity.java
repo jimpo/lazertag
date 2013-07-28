@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ColorBlobDetectionActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
-    private static final String  TAG              = "OCVSample::Activity";
+    public static final String  TAG              = "OCVSample::Activity";
     // fields for the game
     public static final int RADIUS = 10;
 
@@ -42,7 +42,7 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
     private Scalar               mBlobColorHsv;
     private ColorBlobDetector    mDetector;
     private Mat                  mSpectrum;
-    private Size                 SPECTRUM_SIZE;
+    protected Size                 SPECTRUM_SIZE;
     private int callTouchEvent = 0;
 
 //    private Scalar               CONTOUR_COLOR;
@@ -157,8 +157,6 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
                 ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
 
 
-
-
 //        if (std[0] > 70) {
 ////        if (stddev.get(0, 0)[0] > 70 && stddev.get(1, 0)[0] > 15) {
 //            if (callTouchEvent > 0) {
@@ -170,64 +168,17 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 //        } else {
 //            callTouchEvent = 0;
 //        }
-
-        this.activateHit(mean.toArray());
-
-
-        int daColor = Color.argb((int) mBlobColorRgba.val[3],
-                (int) mBlobColorRgba.val[0],
-                (int) mBlobColorRgba.val[1],
-                (int) mBlobColorRgba.val[2]);
-
-        Log.i(TAG, "dacolor: (" + daColor);
-
-        // RETURN ALL DA SHIT
-        Intent resultData = new Intent();
-        resultData.putExtra("colorRGBA", daColor);
-        resultData.putExtra("colorHSA", mean.toArray());
-        setResult(Activity.RESULT_OK, resultData);
-        finish();
-
+        this.finishUp(mBlobColorRgba, mean);
 
         mDetector.setHsvColor(mBlobColorHsv);
         Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE);
 
-        playerFired = true;
-
         targetRegionRgba.release();
         targetRegionHsv.release();
-
         return false; // don't need subsequent touch events
     }
 
-    public void activateHit(double[] meanHSV) {
-        Map<String, double[]> colors = new HashMap<String, double[]>();
-        colors.put("White", new double[]{0, 0, 255});
-        colors.put("Black", new double[]{0, 255, 0});
-        colors.put("Red", new double[]{0, 255, 255});
-        colors.put("RedShirt", new double[]{7, 146, 239});
-        colors.put("Blue", new double[]{240, 255, 255});
-        colors.put("BlueShirt", new double[]{105, 78, 180});
-        colors.put("Cyan", new double[]{180, 255, 255});
-        colors.put("Yellow", new double[]{60, 255, 255});
-        colors.put("Green", new double[]{120 , 255, 255});
-        colors.put("TreeGreen", new double[]{50 , 171, 77});
-
-        double[] weight = {4, .1, .2};
-
-        for (String color : colors.keySet()) {
-            double[] hsv = colors.get(color);
-            double sum1 = Math.abs(hsv[0] - meanHSV[0]);
-            double minDist = Math.min(sum1, 360 - sum1);
-            double sum = Math.pow(minDist,2)*weight[0];
-            for (int i = 1; i < meanHSV.length; i++) {
-
-                sum += Math.pow(meanHSV[i] - hsv[i], 2) * weight[i];
-            }
-            double dist = Math.sqrt(sum);
-            Log.i(TAG, "Color Distance" + color + ": " + dist);
-        }
-
+    public void finishUp(Scalar mBlobColorRgba, MatOfDouble mean) {
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
