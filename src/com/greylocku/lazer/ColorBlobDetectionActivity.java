@@ -1,9 +1,6 @@
 package com.greylocku.lazer;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.hardware.Camera;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
 import org.opencv.android.LoaderCallbackInterface;
@@ -23,8 +20,6 @@ import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ColorBlobDetectionActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
     public static final String  TAG              = "DAJIM";
