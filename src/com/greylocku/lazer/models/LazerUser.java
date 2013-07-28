@@ -24,8 +24,7 @@ public class LazerUser extends ParseObject{
 	 * that makes the object "dirty" (ie saves something to DB)
 	 */
 	public String getName() {
-        LazerUser usr = LazerUser.find("objectId", getObjectId());
-		return usr.getString("name");
+		return getString("name");
 	}
 
 	public void setName(String value) {
@@ -33,8 +32,7 @@ public class LazerUser extends ParseObject{
 	}
 
 	public int getHealth() {
-        LazerUser usr = LazerUser.find("objectId", getObjectId());
-		return usr.getInt("health");
+		return getInt("health");
 	}
 
 	public void setHealth(int value) {
@@ -42,8 +40,7 @@ public class LazerUser extends ParseObject{
 	}
 
 	public int getColor() {
-        LazerUser usr = LazerUser.find("objectId", getObjectId());
-		return usr.getInt("color");
+		return getInt("color");
 	}
 
 	public void setColor(int color) {

@@ -46,8 +46,7 @@ public class LazerGame extends ParseObject{
 	}
 	
 	public String getName() {
-        LazerGame game = LazerGame.find("objectId", getObjectId());
-		return game.getString("name");
+		return getString("name");
 	}
 
 	public void setName(String value) {
