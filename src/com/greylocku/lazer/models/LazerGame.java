@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -29,8 +30,17 @@ public class LazerGame extends ParseObject{
 	}
 
 	public void start() {
-		put("status", STATUS_STARTED);
-		saveInBackground();
+		System.out.println("SUMMERTIME");
+		LazerGame game = LazerGame.find("objectId", getObjectId());
+		System.out.println(game.getObjectId());
+		game.put("status", STATUS_STARTED);
+		try {
+			game.save();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("SAD");
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean isStarted() {
